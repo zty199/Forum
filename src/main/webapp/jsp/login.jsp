@@ -32,9 +32,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <tr>
           <td colspan="2">
             <center>
-              <input type="button" value="注册" onclick="window.location.href='register.jsp';"/>
+              <input type="button" value="注册" onclick="window.location.href='/Forum/jsp/register.jsp';"/>
               <input type="submit" value="登录"/>
-              <input type="button" value="返回首页" onclick="window.location.href='index.jsp';" >
+              <input type="button" value="返回首页" onclick="window.location.href='/Forum/jsp/index.jsp';" >
             </center>
           </td>
         </tr>

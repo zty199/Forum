@@ -5,5 +5,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 %>
 <%
   session.removeAttribute("uname");
-  response.sendRedirect("index.jsp");
+  response.sendRedirect("/Forum/jsp/index.jsp");
 %>

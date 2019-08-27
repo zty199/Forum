@@ -33,8 +33,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <tr>
         <td colspan="2">
           <center>
-            <input type="button" value="登录" onclick="window.location.href='login.jsp';"/>
-            <input type="button" value="注册" onclick="window.location.href='register.jsp';"/>
+            <input type="button" value="登录" onclick="window.location.href='/Forum/jsp/login.jsp';"/>
+            <input type="button" value="注册" onclick="window.location.href='/Forum/jsp/register.jsp';"/>
           </center>
         </td>
       </tr>
@@ -43,7 +43,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       } else {
           out.print("欢迎，" + user);
     %>
-    <input type="button" value="退出登录" onclick="window.location.href='logout.jsp';"/>
+    <input type="button" value="退出登录" onclick="window.location.href='/Forum/jsp/logout.jsp';"/>
     <%
       }
     %>
