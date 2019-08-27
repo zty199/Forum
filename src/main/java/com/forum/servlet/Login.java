@@ -29,11 +29,13 @@ public class Login extends HttpServlet {
 		UserDao dao = new UserDao();
         try {
 			if (dao.isValid(user.getUsername(), user.getPwd())) {
-			    request.getRequestDispatcher("../jsp/index.jsp").forward(request, response);
-			} else {
-			    JOptionPane.showMessageDialog(null, "用户名或密码错误！");
-			    request.getRequestDispatcher("../jsp/login.jsp").forward(request, response);
+				request.getSession().setAttribute("uname", user.getUsername());
+				response.sendRedirect("../jsp/index.jsp");
 			    return;
+			} else {
+				request.getSession().setAttribute("uname", null);
+			    JOptionPane.showMessageDialog(null, "用户名或密码错误！");
+			    response.sendRedirect("../jsp/login.jsp");
 			}
 		} catch (HeadlessException | SQLException e) {
 			// TODO Auto-generated catch block

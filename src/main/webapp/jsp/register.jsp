@@ -35,7 +35,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <center>
               <input type="submit" value="注册"/>
               <input type="reset" value="重置"/>
-              <input type="button" value="取消"  onclick="window.location.href='../jsp/login.jsp';"/>
+              <input type="button" value="取消"  onclick="javascript:history.back(-1);"/>
             </center>
           </td>
         </tr>

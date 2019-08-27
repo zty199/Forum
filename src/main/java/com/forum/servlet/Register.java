@@ -29,33 +29,33 @@ public class Register extends HttpServlet {
 		user.setCpwd(request.getParameter("confirmpwd"));
 		if(user.getUsername().equals("")) {
 			JOptionPane.showMessageDialog(null, "用户名不能为空！");
-			request.getRequestDispatcher("../jsp/register.jsp").forward(request, response);
+			response.sendRedirect("../jsp/register.jsp");
 			return;
 		} else {
 			UserDao dao = new UserDao();
 		    try {
 			    if(dao.isRegistered(user.getUsername())) {
 				    JOptionPane.showMessageDialog(null, "该用户名已被占用！");
-				    request.getRequestDispatcher("../jsp/register.jsp").forward(request, response);
+				    response.sendRedirect("../jsp/register.jsp");
 				    return;
 			    } else {
 			        if(user.getPwd().equals("")) {
 				        JOptionPane.showMessageDialog(null, "密码不能为空！");
-				        request.getRequestDispatcher("../jsp/register.jsp").forward(request, response);
+				        response.sendRedirect("../jsp/register.jsp");
 				        return;
 			        } else {
 			            if(!user.getPwd().equals(user.getCpwd())) {
 			                JOptionPane.showMessageDialog(null, "两次输入的密码不一致！");
-				            request.getRequestDispatcher("../jsp/register.jsp").forward(request, response);
+			                response.sendRedirect("../jsp/register.jsp");
 				            return;
 			            } else {
 			        	    if(dao.addUser(user)) {
 			        		    JOptionPane.showMessageDialog(null, "注册成功！");
-				                request.getRequestDispatcher("../jsp/login.jsp").forward(request, response);
+			        		    response.sendRedirect("../jsp/login.jsp");
 				                return;
 			        	    } else {
 			        	    	JOptionPane.showMessageDialog(null, "未知错误，注册失败！");
-				                request.getRequestDispatcher("../jsp/register.jsp").forward(request, response);
+			        	    	response.sendRedirect("../jsp/register.jsp");
 			        	    }
 			            }
 			        }
