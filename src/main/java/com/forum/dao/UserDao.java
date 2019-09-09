@@ -116,4 +116,23 @@ public class UserDao {
     	}
     }
 	
+	public boolean modifyUser(User user, String temp) throws SQLException {
+    	String sql = "update users set User_name = ?, Register_date = ?, Phone_number = ?, E_mail = ? where User_name = ? and User_id >= 0;";
+    	Connection conn = DBHelper.getCon();
+    	try {			
+    		PreparedStatement pst = conn.prepareStatement(sql);
+    		pst.setString(1, user.getUsername());
+    		pst.setDate(2, new java.sql.Date(user.getDate().getTime()));
+    		pst.setString(3, user.getPhone());
+    		pst.setString(4, user.getMail());
+    		pst.setString(5, temp);
+    		int flag = pst.executeUpdate();
+    		pst.close();
+    		return flag > 0 ? true : false;
+    	} catch (SQLException e) {
+    		e.printStackTrace();
+    		return false;
+    	}
+    }
+	
 }
