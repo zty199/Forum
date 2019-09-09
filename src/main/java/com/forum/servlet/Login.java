@@ -29,8 +29,10 @@ public class Login extends HttpServlet {
 		UserDao dao = new UserDao();
         try {
 			if (dao.isValid(user.getUsername(), user.getPwd())) {
-				request.getSession().setAttribute("uname", user.getUsername());
+				user.setAdmin(dao.isAdmin(user.getUsername()));
+				request.getSession().setAttribute("usr", user);
 				response.sendRedirect("../jsp/index.jsp");
+				//request.getRequestDispatcher("../jsp/index.jsp").forward(request, response);
 			    return;
 			} else {
 				request.getSession().setAttribute("uname", null);

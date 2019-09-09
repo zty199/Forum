@@ -194,8 +194,7 @@ dl{clear:left;}
   </div>
 </div>
 </body>
-</html><!doctype html>
-<html>
+<html><!doctype html>
 <head>
 <meta charset="utf-8">
 <title>买方-定向采购-发布LNG空车定向采购</title>

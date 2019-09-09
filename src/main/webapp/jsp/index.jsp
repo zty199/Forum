@@ -1,8 +1,8 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page import="com.forum.entity.User"%>
 <%
-	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
-			+ path + "/";
+String path = request.getContextPath();
+String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -50,22 +50,29 @@
 			</div>
 		</span> <a href="/Forum/jsp/writetiezi.jsp" class="write">我要发帖</a>
 		<%
-			String user = null;
-			user = (String) session.getAttribute("uname");
+			User user = null;
+			user = (User)session.getAttribute("usr");
 			if (user == null) {
 		%>
 		<a href="/Forum/jsp/login.jsp" class="buttonlogin">登录</a> <a
 			href="/Forum/jsp/register.jsp" class="buttonregister">注册</a>
 		<%
-			} else {%>
-		<a href="/Forum/jsp/logout.jsp" class="exit">EXIT</a> <span
+			} else {
+	    %>
+		<a href="/Forum/jsp/logout.jsp" class="exit">注销</a> <span
 			class="buttoncenter"> <a href="javascript:void(0);">个人中心</a>
 			<div class="centerdownmenu">
 				<dl>
-					<a href="/Forum/jsp/personalinformation.jsp">普通用户</a>
+					<a href="/Forum/jsp/personal.jsp?uname=<%=user.getUsername()%>">普通用户</a>
 				</dl>
 				<dl>
-					<a href="/Forum/jsp/manageridentification.jsp">管理员</a>
+				<%
+				    if (user.getAdmin()) {
+				%>
+					<a href="/Forum/jsp/manager.jsp">管理员</a>
+				<%
+				    }
+				%>
 				</dl>
 			</div>
 		</span>
@@ -74,11 +81,16 @@
 		%>
 	</div>
 	<%
-        if(user!=null) {%>
-        <center><p class="welcome"><%out.print("欢迎,"+user);%></p></center>
-		<%
-			}
-		%>
+        if(user == null) {
+    %>
+            <center><p class="welcome"><%out.print("欢迎,请登录！");%></p></center>
+	<%
+		} else {
+	%>
+		    <center><p class="welcome"><%out.print("欢迎," + user.getUsername() + "!");%></p></center>
+	<%
+		}
+	%>
 	<!--  
        <input type="button" value="登录" onclick="window.location.href='/Forum/jsp/login.jsp';" class="buttonlogin"/>
        <input type="button" value="注册" onclick="window.location.href='/Forum/jsp/register.jsp';" class="buttonregister"/>

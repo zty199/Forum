@@ -1,9 +1,11 @@
 package com.forum.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 
 import com.forum.entity.User;
 
@@ -11,6 +13,28 @@ import com.forum.dao.DBHelper;
 
 public class UserDao {
 
+	public User getInfo(String username) throws SQLException {
+        String sql = "select * from users where User_name = '" + username + "'";
+        Connection conn = DBHelper.getCon();
+        User user = new User();
+        try {
+        	PreparedStatement pst = conn.prepareStatement(sql);
+        	ResultSet rs = pst.executeQuery();
+        	while(rs.next())
+        	{
+        		user.setUsername(rs.getString("User_name"));
+        		user.setDate(rs.getDate("Register_date"));
+        		user.setPhone(rs.getString("Phone_number"));
+        		user.setMail(rs.getString("E_mail"));
+        	}
+        	rs.close();
+        	pst.close();
+        } catch (SQLException e) {
+    		e.printStackTrace();
+    	}
+        return user;
+    }
+	
 	public boolean isRegistered(String username) throws SQLException {
 		String sql = "select * from users where User_name = '" + username + "'";
 		Connection conn = DBHelper.getCon();
@@ -54,13 +78,35 @@ public class UserDao {
     		return false;
 	}
 	
+	public boolean isAdmin(String username) throws SQLException {
+		String sql = "select Admin from users where User_name = '" + username + "'";
+		Connection conn = DBHelper.getCon();
+		User user = new User();
+    	try {
+    		PreparedStatement pst = conn.prepareStatement(sql);
+    		ResultSet rs = pst.executeQuery();
+    		while (rs.next()) {
+    			user.setAdmin(rs.getBoolean("Admin"));
+    		}
+    		rs.close();
+    		pst.close();
+    	} catch (SQLException e) {
+    		e.printStackTrace();
+    	}
+    	return user.getAdmin();
+	}
+	
 	public boolean addUser(User user) throws SQLException {
-    	String sql = "insert into users(User_name,User_pwd,Admin) values (?,?,0)";
+		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date(System.currentTimeMillis());
+		System.out.println(formatter.format(date));
+    	String sql = "insert into users(User_name,User_pwd,Admin,Register_date) values (?,?,0,?)";
     	Connection conn = DBHelper.getCon();
     	try {			
     		PreparedStatement pst = conn.prepareStatement(sql);
     		pst.setString(1, user.getUsername());
     		pst.setString(2, user.getPwd());
+    		pst.setDate(3, date);
     		int flag = pst.executeUpdate();
     		pst.close();
     		return flag > 0 ? true : false;
