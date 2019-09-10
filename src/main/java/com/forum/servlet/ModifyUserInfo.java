@@ -28,13 +28,8 @@ public class ModifyUserInfo extends HttpServlet {
         String temp = (String) request.getSession().getAttribute("uname");
 		User user = new User();
 		user.setUsername(request.getParameter("name"));
-		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			user.setDate(f.parse(request.getParameter("date")));
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		user.setPwd(request.getParameter("pwd"));
+		user.setCpwd(request.getParameter("cpwd"));
 		user.setPhone(request.getParameter("phone"));
 		user.setMail(request.getParameter("mail"));
 		if(user.getUsername().equals("")) {
@@ -49,14 +44,26 @@ public class ModifyUserInfo extends HttpServlet {
 				    response.sendRedirect("../jsp/personal.jsp");
 				    return;
 			    } else {
-			        if(dao.modifyUser(user, temp)) {
-			        	JOptionPane.showMessageDialog(null, "修改成功！");
-			        	request.getSession().setAttribute("uname", user.getUsername());
-						response.sendRedirect("../jsp/personal.jsp");
+			    	if(user.getPwd().equals("")) {
+				        JOptionPane.showMessageDialog(null, "密码不能为空！");
+				        response.sendRedirect("../jsp/personal.jsp");
 				        return;
-				    } else {
-			        	JOptionPane.showMessageDialog(null, "未知错误，修改失败！");
-						response.sendRedirect("../jsp/personal.jsp");
+			        } else {
+			            if(!user.getPwd().equals(user.getCpwd())) {
+			                JOptionPane.showMessageDialog(null, "两次输入的密码不一致！");
+			                response.sendRedirect("../jsp/personal.jsp");
+				            return;
+			            } else {
+			            	if(dao.modifyUser(user, temp)) {
+			            		JOptionPane.showMessageDialog(null, "修改成功！");
+			            		request.getSession().setAttribute("uname", user.getUsername());
+			            		response.sendRedirect("../jsp/personal.jsp");
+			            		return;
+			            	} else {
+			            		JOptionPane.showMessageDialog(null, "未知错误，修改失败！");
+			            		response.sendRedirect("../jsp/personal.jsp");
+			            	}
+			            }
 			        }
 			    }
 		    } catch (SQLException e) {

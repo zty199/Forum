@@ -35,7 +35,9 @@ user = dao.getInfo(user.getUsername());
       <table border="1">
         <caption>个人信息</caption>
         <tr><td><center>用户名</center></td><td><center><input type="text" name="name" value="<%=user.getUsername()%>"/></center></td></tr>
-        <tr><td><center>注册日期</center></td><td><center><input type="text" name="date" value="<%=user.getDate()%>"/></center></td></tr>
+        <tr><td><center>密码</center></td><td><center><input type="password" name="pwd"/></center></td></tr>
+        <tr><td><center>确认密码</center></td><td><center><input type="password" name="cpwd"/></center></td></tr>
+        <tr><td><center>注册日期</center></td><td><center><%=user.getDate()%></center></td></tr>
         <tr><td><center>电话</center></td><td><center><input type="text" name="phone" value="<%=user.getPhone()%>"/></center></td></tr>
         <tr><td><center>邮箱</center></td><td><center><input type="text" name="mail" value="<%=user.getMail()%>"/></center></td></tr>
         <tr>
