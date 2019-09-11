@@ -1,17 +1,42 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page import="com.forum.dao.UserDao,com.forum.entity.User,com.forum.entity.Thread,com.forum.entity.Reply"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+User usr = null;
+usr = (User) session.getAttribute("usr");
+%>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="NewFile1.css" />
-<link rel="stylesheet" type="text/css" href="NewFile.css" />
-</head>
-<body>
+  <head>
+    <base href="<%=basePath%>">
+  
+    <title>发起帖子界面</title>
+    
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache,must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="This is my page">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="/Forum/jsp/NewFile.css" />
+    <link rel="stylesheet" type="text/css" href="/Forum/jsp/NewFile1.css" />
+    <link rel="stylesheet" type="text/css" href="/Forum/jsp/NewFile2.css" />
+    
+  </head>
+  <body>
+  <%
+      String Forum_big = (String)session.getAttribute("para1");
+	  String Forum_small = (String)session.getAttribute("para2");
+	  String Thread_title = (String)session.getAttribute("para3");
+	  String Thread_writer = (String)session.getAttribute("para4");
+	  String Thread_content = (String)session.getAttribute("para5");
+	  String Thread_date = (String)session.getAttribute("para6");
+  %> 
 	<br>
 	<div class="topframe">
-		<a href="/Forum/jsp/index.jsp" target="_blank">论坛首页</a> <span
+		<a href="/Forum/jsp/index.jsp" target="_self">论坛首页</a> <span
 			class="dropdown"> <a href="javascript:void(0);">精选版块</a>
 			<div class="dropdownmenu">
 				<dl>
@@ -33,7 +58,8 @@
 					</dd>
 				</dl>
 			</div>
-		</span> <a href="/Forum/jsp/writetiezi.jsp" class="write">我要发帖</a> <%
+		</span> <a href="/Forum/jsp/writetiezi.jsp" class="write">我要发帖</a> 
+		<%
 			String user = null;
 			user = (String) session.getAttribute("uname");
 			if (user == null) {
@@ -58,51 +84,64 @@
 		%>
 	</div>
 	<div class="secondframe">
-		<a href="/" target="_blank">论坛</a> <span>></span> <a href="food.jsp"
-			target="_blank">食物</a> <span>></span> <a href="restaurant.jsp"
-			target="_blank">餐馆</a>
+		<a href="/Forum/jsp/index.jsp" target="_blank">论坛</a> <span>></span> <a href="food.jsp"
+			target="_blank"><%=Forum_big %></a> <span>></span> <a href="restaurant.jsp"
+			target="_blank"><%=Forum_small %></a>
 	</div>
 	<div class="thirdframe">
 		<h3>
-			帖子标题:???????????&nbsp;&nbsp;&nbsp; <span> [问题点数：???分] </span>
+			帖子标题:<%=Thread_title%>&nbsp;&nbsp;&nbsp; <span> [问题点数：???分] </span>
 		</h3>
 	</div>
 	<div class="thirdframe">
-		<a href="" class="store">收藏帖子</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
-			href="#replytext" class="reply">回复</a>
+		<a href="" class="store">收藏帖子</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="#replytext" class="reply">回复</a>
 	</div>
+	<% ArrayList list = (ArrayList)session.getAttribute("list"); %>
 	<div class="onetable">
 		<dl class="replydl">
 			<dt class="replydt">
-				????????/?????yuhguygbu
+				<%=Thread_writer%>
             </dt>
-			<dd class="replydd">jhvjhgbjb </dd>
+			<dd class="replydd"><%=Thread_content%> </dd>
 		</dl>
+		<%
+		    for(int i = 0; i < list.size(); i++)
+            {
+	            Reply r = (Reply)list.get(i);
+	            String Reply_content=r.getReply_content();
+	            String Reply_writer=r.getReply_writer();
+        %>
 		<dl class="replydl">
 			<dt class="replydt">
-				????????/?????yuhguygbu
+				<%=r.getReply_writer()%>
             </dt>
-			<dd class="replydd">jhvjhgbjb </dd>
+			<dd class="replydd"><%=r.getReply_content()%> </dd>
 		</dl>
-		<dl class="replydl">
-			<dt class="replydt">
-				????????/?????yuhguygbu
-            </dt>
-			<dd class="replydd">jhvjhgbjb </dd>
-		</dl>
-		<dl class="replydl">
-			<dt class="replydt">
-				????????/?????yuhguygbu
-            </dt>
-			<dd class="replydd">jhvjhgbjb </dd>
-		</dl>
-	</div>
-<form name="reply" action="" method="post" enctype="multipart/form-data" class="publishreply">
-<center>
-<textarea id="replytext" cols="104" rows="10" placeholder="please input the content about your question.">
-</textarea><br><br>
-</center>
-<input type="submit" value="提交回复" class="replybutton">
-</form>
-</body>
+		<%
+		    }
+		%>
+<!--<form name="reply" action="../servlet/submitreply" method="post" enctype="multipart/form-data" class="publishreply">-->
+	<div class="publishreply">
+	  <form name="reply" action="servlet/Submitreply" method="post" >
+	    <center>
+	      <textarea id="replytext" cols="104" rows="10" name="Reply_content" placeholder="please input the content about your question.">
+	      </textarea><br><br><!-- <textarea>和</textarea>之间不能有空格，or the content of placeholder can not display. -->
+	    </center>
+	    <label>帖子回复者:</label>&nbsp;&nbsp;&nbsp;&nbsp;<select name="Reply_writer" >
+                <option value="" selected>请选择...</option>
+				<%
+			        if(usr != null) {
+			    %>
+				<option value="<%=usr.getUsername()%>">本名</option>
+				<%
+				    }
+				%>
+				<option value="无名氏">匿名</option>
+				</select><br><br>
+        <input type="submit" value="提交回复" class="replybutton">
+      </form>
+      </div>
+    </div>
+  </body>
 </html>

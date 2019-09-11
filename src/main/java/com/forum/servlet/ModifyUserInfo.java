@@ -2,9 +2,6 @@ package com.forum.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,9 +22,9 @@ public class ModifyUserInfo extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=utf-8");
         request.setCharacterEncoding("utf-8");
-        String temp = (String) request.getSession().getAttribute("uname");
 		User user = new User();
 		user.setUsername(request.getParameter("name"));
+		String temp = user.getUsername();
 		user.setPwd(request.getParameter("pwd"));
 		user.setCpwd(request.getParameter("cpwd"));
 		user.setPhone(request.getParameter("phone"));
@@ -56,12 +53,12 @@ public class ModifyUserInfo extends HttpServlet {
 			            } else {
 			            	if(dao.modifyUser(user, temp)) {
 			            		JOptionPane.showMessageDialog(null, "修改成功！");
-			            		request.getSession().setAttribute("uname", user.getUsername());
-			            		response.sendRedirect("../jsp/personal.jsp");
+			            		//request.getSession().setAttribute("uname", user.getUsername());
+			            		response.sendRedirect("../jsp/personal.jsp?uname=" + user.getUsername());
 			            		return;
 			            	} else {
 			            		JOptionPane.showMessageDialog(null, "未知错误，修改失败！");
-			            		response.sendRedirect("../jsp/personal.jsp");
+			            		response.sendRedirect("../jsp/personal.jsp?uname=" + user.getUsername());
 			            	}
 			            }
 			        }

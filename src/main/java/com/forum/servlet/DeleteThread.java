@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.JOptionPane;
 
-import com.forum.dao.UserDao;
-import com.forum.entity.User;
+import com.forum.dao.ReplyDao;
+import com.forum.dao.ThreadDao;
 
-public class Login extends HttpServlet {
-
+public class DeleteThread extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -23,25 +23,22 @@ public class Login extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=utf-8");
         request.setCharacterEncoding("utf-8");
-        User user = new User();
-		user.setUsername(request.getParameter("username"));
-		user.setPwd(request.getParameter("password"));
-		UserDao dao = new UserDao();
+        int id = Integer.parseInt(request.getParameter("tid"));
+        ThreadDao dao = new ThreadDao();
+        ReplyDao dao1 = new ReplyDao();
         try {
-			if (dao.isValid(user.getUsername(), user.getPwd())) {
-				user = dao.getInfo(user.getUsername());
-				request.getSession().setAttribute("usr", user);
-				response.sendRedirect("../jsp/index.jsp");
-			    return;
+			if(dao.delThread(id) && dao1.delAllReply(id)) {
+				JOptionPane.showMessageDialog(null, "删除成功！");
+				response.sendRedirect("../jsp/threads.jsp");
+				return;
 			} else {
-				request.getSession().setAttribute("usr", null);
-			    JOptionPane.showMessageDialog(null, "用户名或密码错误！");
-			    response.sendRedirect("../jsp/login.jsp");
+				JOptionPane.showMessageDialog(null, "未知原因，删除失败或删除不完全！");
+				response.sendRedirect("../jsp/threads.jsp");
 			}
 		} catch (HeadlessException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 	
-    }
+		}
+	}
 
 }

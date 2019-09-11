@@ -44,9 +44,8 @@ font-size:white;
 }
 .onetable
 {
-border-color:rgb(230,230,230);
+border-color:rgb(255,255,255);
 border-width:0.1px;
-height:1000px;
 border-style:solid;
 background-color:rgb(255,255,255);
 display:block;
@@ -65,20 +64,23 @@ padding:0;
     border-color:rgb(230,230,230);
     border-width:0.1px;
     border-style:solid;
-    height:200px;
-    width:200px;  
+    height:110px;
+    width:130px;  
+    padding-left:70px;
+    padding-top:90px;
 }
 .replydd 
 {
     float:left;
     display:inline;
     margin:0;
-    padding-left:140px;
-    height:200px;
-    width:559.5px;
+    padding-left:80px;
+    height:180px;
+    width:619.5px;
     border-color:rgb(230,230,230);
     border-width:0.1px;
     border-style:solid;
+    padding-top:20px;
 }
 .replydl{clear:left;}
 a

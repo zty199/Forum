@@ -1,16 +1,34 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page import="com.forum.dao.UserDao,com.forum.entity.User"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+User usr = null;
+usr = (User) session.getAttribute("usr");
+%>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>发起帖子界面</title>
-<link rel="stylesheet" type="text/css" href="NewFile.css" />
-<link rel="stylesheet" type="text/css" href="NewFile1.css" />
-</head>
-<body background="../images/index.jpg">
+  <head>
+    <base href="<%=basePath%>">
+  
+    <title>发起帖子界面</title>
+    
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache,must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="This is my page">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="/Forum/jsp/NewFile.css" />
+    <link rel="stylesheet" type="text/css" href="/Forum/jsp/NewFile1.css" />
+    <link rel="stylesheet" type="text/css" href="/Forum/jsp/NewFile2.css" />
+    
+  </head>
+  <body background="images/index.jpg">
 	<br>
 	<div class="topframe">
-		<a href="/Forum/jsp/index.jsp" target="_blank">论坛首页</a> <span
+		<a href="/Forum/jsp/index.jsp" target="_self">论坛首页</a> <span
 			class="dropdown"> <a href="javascript:void(0);">精选版块</a>
 			<div class="dropdownmenu">
 				<dl>
@@ -34,23 +52,27 @@
 			</div>
 		</span> <a href="/Forum/jsp/writetiezi.jsp" target="_blank" class="write">我要发帖</a>
 		<%
-			String user = null;
-			user = (String) session.getAttribute("uname");
-			if (user == null) {
+			if (usr == null) {
 		%>
 		<a href="/Forum/jsp/login.jsp" class="buttonlogin">登录</a> <a
 			href="/Forum/jsp/register.jsp" class="buttonregister">注册</a>
 		<%
 			} else {
 		%>
-		<a href="/Forum/jsp/logout.jsp" class="exit">EXIT</a> <span
+		<a href="/Forum/jsp/logout.jsp" class="exit">注销</a> <span
 			class="buttoncenter"> <a href="javascript:void(0);">个人中心</a>
 			<div class="centerdownmenu">
 				<dl>
-					<a href="/Forum/jsp/personalinformation.jsp">普通用户</a>
+					<a href="/Forum/jsp/personal.jsp?uname=<%=usr.getUsername()%>">普通用户</a>
 				</dl>
 				<dl>
-					<a href="/Forum/jsp/manageridentification.jsp">管理员</a>
+				<%
+				    if (usr.getAdmin()) {
+				%>
+					<a href="/Forum/jsp/administrator.jsp?uname=<%=usr.getUsername()%>">管理员</a>
+				<%
+				    }
+				%>
 				</dl>
 			</div>
 		</span>
@@ -60,9 +82,13 @@
 	</div>
 	<br>
 	<br>
+	 <div class="publish">
+		<!--<form name="write" action="../servlet/submitwrite" method="post"
+			enctype="multipart/form-data" >-->
+		<form name="writeform" action="servlet/Submitwrite" method="post" >
 	    <div class="publish0">
-		<input autocomplete="off" type="text" name="title"
-			placeholder="输入文章标题" style="width: 500px; height: 30px;"
+		<input autocomplete="off" type="text" name="Thread_title"
+			placeholder="输入文章标题" style="width: 450px; height: 30px;"
 			class="txtinput"> &nbsp;&nbsp; <select id="point"
 			name="titlepoint" class="selectscore" style="height: 30px;">
 			<option value="0">0</option>
@@ -78,25 +104,34 @@
 		</select> 
 		</div>
 		<br> <br>
-	    <div class="publish">
-		<form name="write" action="" method="post"
-			enctype="multipart/form-data" >
-			<textarea cols="72" rows="20" placeholder="输入文章内容" ></textarea> 
-			<br> <br> <label>主题版块 :</label>&nbsp;&nbsp;&nbsp;&nbsp; <select
-				id="select_parent_forum" name="parentforum">
+			<textarea name="Thread_content" cols="72" rows="20" placeholder="输入文章内容" ></textarea> 
+			<br> <br><br> <br>  <label>主题版块 :</label>&nbsp;&nbsp;&nbsp;&nbsp; <select
+				name="Forum_big">
 				<option value="" selected>-选择大版块-</option>
-				<option value="">食物</option>
-				<option value="">住宿</option>
-				<option value="">服装</option>
-			</select>&nbsp;&nbsp;&nbsp;&nbsp; <select id="select_child_forum"
-				name="childforum">
+				<option value="食物">食物</option>
+				<option value="住宿">住宿</option>
+				<option value="服装">服装</option>
+			</select>&nbsp;&nbsp;&nbsp;&nbsp; <select 
+				name="Forum_small">
 				<option value="" selected>-选择小版块-</option>
-				<option value="">小吃店</option>
-				<option value="">餐馆</option>
-				<option value="">酒店</option>
-				<option value="">旅馆</option>
-			</select><br> <br> <input type="submit" value="提交" class="submit1">
+				<option value="小吃店">小吃店</option>
+				<option value="餐馆">餐馆</option>
+				<option value="酒店">酒店</option>
+				<option value="旅馆">旅馆</option>
+			</select><br> <br> 		
+			<label>帖子发起者:</label>&nbsp;&nbsp;&nbsp;&nbsp;<select name="Thread_writer" >
+			    <option value="" selected>请选择...</option>
+			    <%
+			        if(usr != null) {
+			    %>
+				<option value="<%=usr.getUsername()%>">本名</option>
+				<%
+				    }
+				%>
+				<option value="无名氏">匿名</option>
+				</select><br><br>
+			<input type="submit" value="提交" class="submit1">	
 		</form>
 		</div>
-</body>
+  </body>
 </html>

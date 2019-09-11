@@ -17,6 +17,39 @@
     <servlet-name>ModifyUserInfo</servlet-name>
     <servlet-class>com.forum.servlet.ModifyUserInfo</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>Submitwrite</servlet-name>
+    <servlet-class>com.forum.servlet.Submitwrite</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Submitreply</servlet-name>
+    <servlet-class>com.forum.servlet.Submitreply</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DeleteUser</servlet-name>
+    <servlet-class>com.forum.servlet.DeleteUser</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DisplayThread</servlet-name>
+    <servlet-class>com.forum.servlet.DisplayThread</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DeleteThread</servlet-name>
+    <servlet-class>com.forum.servlet.DeleteThread</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ModifyForumInfo</servlet-name>
+    <servlet-class>com.forum.servlet.ModifyForumInfo</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AddForum</servlet-name>
+    <servlet-class>com.forum.servlet.AddForum</servlet-class>
+  </servlet>
+
+
+
+
+
 
 
 
@@ -37,6 +70,34 @@
   <servlet-mapping>
     <servlet-name>ModifyUserInfo</servlet-name>
     <url-pattern>/servlet/ModifyUserInfo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Submitwrite</servlet-name>
+    <url-pattern>/servlet/Submitwrite</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Submitreply</servlet-name>
+    <url-pattern>/servlet/Submitreply</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DeleteUser</servlet-name>
+    <url-pattern>/servlet/DeleteUser</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DisplayThread</servlet-name>
+    <url-pattern>/servlet/DisplayThread</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DeleteThread</servlet-name>
+    <url-pattern>/servlet/DeleteThread</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ModifyForumInfo</servlet-name>
+    <url-pattern>/servlet/ModifyForumInfo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AddForum</servlet-name>
+    <url-pattern>/servlet/AddForum</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>

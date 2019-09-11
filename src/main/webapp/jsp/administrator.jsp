@@ -1,7 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page import="com.forum.dao.UserDao,com.forum.entity.User"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+User usr = new User();
+usr = (User)request.getSession().getAttribute("usr");
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -9,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>登录 - 技术论坛</title>
+    <title>管理员界面</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -22,25 +25,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	-->
 
   </head>
-  
   <body>
     <center>
-    <form action="servlet/Login" method="post">
-      <table>
-        <caption>用户登录</caption>
-        <tr><td>用户名:</td><td><input type="text" name="username" size="20"/></td></tr>
-        <tr><td>密码:</td><td><input type="password" name="password" size="20"/></td></tr>
-        <tr>
-          <td colspan="2">
-            <center>
-              <input type="button" value="注册" onclick="window.location.href='/Forum/jsp/register.jsp';"/>
-              <input type="submit" value="登录"/>
-              <input type="button" value="返回首页" onclick="window.location.href='/Forum/jsp/index.jsp';" >
-            </center>
-          </td>
-        </tr>
-      </table>
-    </form>
+    <table border="1">
+      <caption>管理员操作列表</caption>
+      <tr><td><center><input type="button" value="用户列表" onclick="window.location.href='/Forum/jsp/users.jsp';"/></center></td></tr>
+      <tr><td><center><input type="button" value="板块列表" onclick="window.location.href='/Forum/jsp/forums.jsp';"/></center></td></tr>
+      <tr><td><center><input type="button" value="帖子列表" onclick="window.location.href='/Forum/jsp/threads.jsp';"/></center></td></tr>
+      <tr><td><center><input type="button" value="退出管理" onclick="window.location.href='/Forum/jsp/index.jsp';"/></center></td></tr>
+    </table>
     </center>
   </body>
 </html>

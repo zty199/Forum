@@ -5,13 +5,39 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.forum.entity.User;
 
 import com.forum.dao.DBHelper;
 
 public class UserDao {
+	
+	public List<User> getAllUser() throws SQLException {
+        List<User> list = new ArrayList<User>();
+        String sql = "select * from users";
+        Connection conn = DBHelper.getCon();        
+        try {
+            PreparedStatement pst = conn.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            while(rs.next())
+            {
+            	User user = new User();
+            	user.setUserid(rs.getInt("User_id"));
+            	user.setUsername(rs.getString("User_name"));
+            	user.setPwd(rs.getString("User_pwd"));
+            	user.setAdmin(rs.getBoolean("Admin"));
+        		user.setDate(rs.getDate("Register_date"));
+        		user.setPhone(rs.getString("Phone_number"));
+        		user.setMail(rs.getString("E_mail"));
+                list.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
 	public User getInfo(String username) throws SQLException {
         String sql = "select * from users where User_name = '" + username + "'";
@@ -20,9 +46,11 @@ public class UserDao {
         try {
         	PreparedStatement pst = conn.prepareStatement(sql);
         	ResultSet rs = pst.executeQuery();
-        	while(rs.next())
-        	{
-        		user.setUsername(rs.getString("User_name"));
+        	while(rs.next()) {
+        		user.setUserid(rs.getInt("User_id"));
+            	user.setUsername(rs.getString("User_name"));
+            	user.setPwd(rs.getString("User_pwd"));
+            	user.setAdmin(rs.getBoolean("Admin"));
         		user.setDate(rs.getDate("Register_date"));
         		user.setPhone(rs.getString("Phone_number"));
         		user.setMail(rs.getString("E_mail"));
@@ -97,9 +125,7 @@ public class UserDao {
 	}
 	
 	public boolean addUser(User user) throws SQLException {
-		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date(System.currentTimeMillis());
-		System.out.println(formatter.format(date));
     	String sql = "insert into users(User_name,User_pwd,Admin,Register_date) values (?,?,0,?)";
     	Connection conn = DBHelper.getCon();
     	try {			
@@ -126,6 +152,20 @@ public class UserDao {
     		pst.setString(3, user.getPhone());
     		pst.setString(4, user.getMail());
     		pst.setString(5, temp);
+    		int flag = pst.executeUpdate();
+    		pst.close();
+    		return flag > 0 ? true : false;
+    	} catch (SQLException e) {
+    		e.printStackTrace();
+    		return false;
+    	}
+    }
+	
+	public boolean delUser(int id) throws SQLException {
+    	String sql = "delete from users where User_id = " + id;
+    	Connection conn = DBHelper.getCon();
+    	try {
+    		PreparedStatement pst = conn.prepareStatement(sql);
     		int flag = pst.executeUpdate();
     		pst.close();
     		return flag > 0 ? true : false;

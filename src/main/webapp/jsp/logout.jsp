@@ -2,8 +2,6 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
-<%
-  session.removeAttribute("usr");
-  response.sendRedirect("/Forum/jsp/index.jsp");
+session.invalidate();
+response.sendRedirect("/Forum/jsp/index.jsp");
 %>
