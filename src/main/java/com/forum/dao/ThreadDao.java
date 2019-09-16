@@ -46,6 +46,7 @@ public class ThreadDao {
         	ResultSet rs = pst.executeQuery();
         	while(rs.next())
         	{
+        		thread.setThread_id(id);
         		thread.setForum_big(rs.getString("Forum_big"));
         		thread.setForum_small(rs.getString("Forum_small"));
         		thread.setThread_title(rs.getString("Thread_title"));
@@ -83,16 +84,16 @@ public class ThreadDao {
     }
 	
 	
-	/*public boolean modifyForum(int id) throws SQLException {
-    	String sql = "update forums set Forum_id = ?, Forum_title = ?, Forum_info = ? where Forum_id = ?";
+	/*public boolean modifyThread(int id) throws SQLException {
+    	String sql = "update threads set Forum_big = ?, Forum_small = ?, Thread_title = ?, Thread_content = ? where Thread_id =" + id;
     	Connection conn = DBHelper.getCon();
-    	Forum forum = new Forum();
+    	Thread thread = new Thread();
     	try {			
     		PreparedStatement pst = conn.prepareStatement(sql);
-    		pst.setInt(1, forum.getId());
-    		pst.setString(2, forum.getTitle());
-    		pst.setString(3, forum.getInfo());
-    		pst.setInt(4, id);
+    		pst.setString(1, thread.getForum_big());
+    		pst.setString(2, thread.getForum_small());
+    		pst.setString(3, thread.getThread_title());
+    		pst.setString(4, thread.getThread_content());
     		int flag = pst.executeUpdate();
     		pst.close();
     		return flag > 0 ? true : false;

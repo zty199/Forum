@@ -1,10 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ page import="com.forum.dao.UserDao,com.forum.entity.User"%>
+<%@ page import="com.forum.dao.UserDao,com.forum.entity.User,com.forum.dao.ThreadDao,com.forum.entity.Thread"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 User usr = null;
 usr = (User) session.getAttribute("usr");
+Thread thread = new Thread();
+ThreadDao dao = new ThreadDao();
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -20,127 +22,167 @@ usr = (User) session.getAttribute("usr");
     <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
     <meta http-equiv="description" content="This is my page">
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <link rel="stylesheet" type="text/css" href="/Forum/jsp/NewFile.css" />
-    <link rel="stylesheet" type="text/css" href="/Forum/jsp/NewFile1.css" />
-    <link rel="stylesheet" type="text/css" href="/Forum/jsp/NewFile2.css" />
+    
+	<link rel="stylesheet" type="text/css" href="/Forum/css/layui.css" media="all">
+	<link rel="stylesheet" type="text/css" href="/Forum/css/NewFile.css" />
+    <link rel="stylesheet" type="text/css" href="/Forum/css/NewFile1.css" />
+    <link rel="stylesheet" type="text/css" href="/Forum/css/NewFile2.css" />
 
   </head>
-  <body background="images/index.jpg">
-	<br>
-	<div class="topframe">
-		<a href="/Forum/jsp/index.jsp" target="_self">论坛首页</a> <span
-			class="dropdown"> <a href="javascript:void(0);">精选版块</a>
-			<div class="dropdownmenu">
-				<dl>
-					<dt>
-						<a href="/Forum/jsp/food.jsp">食物</a>
-					</dt>
-					<dd>
-						<a href="/Forum/jsp/restaurant.jsp">餐馆</a>&nbsp;&nbsp;<a
-							href="/Forum/jsp/noshery.jsp">小吃店</a>
-					</dd>
-				</dl>
-				<dl>
-					<dt>
-						<a href="/Forum/jsp/accomodation.jsp">住宿</a>
-					</dt>
-					<dd>
-					<a href="/Forum/jsp/restaurant.jsp">酒店</a>&nbsp;&nbsp;<a
-							href="/Forum/jsp/noshery.jsp">旅馆</a>
-					</dd>
-				</dl>
-			</div>
-		</span> <a href="/Forum/jsp/writetiezi.jsp" class="write">我要发帖</a>
-		<%
-			if (usr == null) {
-		%>
-		<a href="/Forum/jsp/login.jsp" class="buttonlogin">登录</a> <a
-			href="/Forum/jsp/register.jsp" class="buttonregister">注册</a>
-		<%
-			} else {
-	    %>
-		<a href="/Forum/jsp/logout.jsp" class="exit">注销</a> <span
-			class="buttoncenter"> <a href="javascript:void(0);">个人中心</a>
-			<div class="centerdownmenu">
-				<dl>
-					<a href="/Forum/jsp/personal.jsp">普通用户</a>
-				</dl>
-				<dl>
-				<%
-				    if (usr.getAdmin()) {
-				%>
-					<a href="/Forum/jsp/administrator.jsp">管理员</a>
-				<%
-				    }
-				%>
-				</dl>
-			</div>
-		</span>
-		<%
-			}
-		%>
-	</div>
+  <body bgcolor="#F2F2F2">
+
+	<ul class="layui-nav">
+	<li class="layui-nav-item"><a href="/Forum/jsp/index.jsp">主页</a></li>
+	<li class="layui-nav-item"><a href="/Forum/jsp/forums.jsp">版块</a></li>
 	<%
-        if(usr == null) {
-    %>
-            <center><p class="welcome"><%out.print("欢迎,请登录！");%></p></center>
-	<%
-		} else {
+	if (usr == null) {
 	%>
-		    <center><p class="welcome"><%out.print("欢迎," + usr.getUsername() + "!");%></p></center>
+	<li class="layui-nav-item"><a href="/Forum/jsp/login.jsp">登录</a></li>
+	<li class="layui-nav-item"><a href="/Forum/jsp/register.jsp">注册</a></li>
 	<%
-		}
+	} else {
 	%>
-	
-       <br> <br> <br> <br> <br><br>
-        <div>
-        <h3 class="title"><span>热帖・技术区</span><a href="" target="_blank" class="morecontent">更多</a>
+	<li class="layui-nav-item"><a href="/Forum/jsp/personal.jsp">个人中心</a></li>
+	<li class="layui-nav-item"><a href="/Forum/jsp/writetiezi.jsp">我要发贴</a></li>
+	<li class="layui-nav-item"><a href="/Forum/jsp/logout.jsp">注销</a></li>	
+	<%
+	    if (usr.getAdmin()) {
+	%>
+	<li class="layui-nav-item"><a href="/Forum/jsp/administrator.jsp">管理员</a></li>
+	<%
+	    }
+	}
+	%>
+	</ul>
+ 
+<div style="padding: 20px; background-color: #F2F2F2;">
+  <div class="layui-row layui-col-space15">
+    <div class="layui-col-md6">
+      <div class="layui-card">
+        <div class="layui-card-header"><a href="">Windows</a></div>
+        <div class="layui-card-body">
+        <a href="">Windows专区</a>
+        </div>
+      </div>
+    </div>
+    <div class="layui-col-md6">
+      <div class="layui-card">
+        <div class="layui-card-header"><a href="">Linux</a></div>
+        <div class="layui-card-body">
+          <a href="">Linux专区</a>
+        </div>
+      </div>
+    </div>
+	<div class="layui-col-md6">
+      <div class="layui-card">
+        <div class="layui-card-header"><a href="">macOS</a></div>
+        <div class="layui-card-body">
+          <a href="">macOS专区</a>
+        </div>
+      </div>
+    </div>
+    <div class="layui-col-md6">
+      <div class="layui-card">
+        <div class="layui-card-header"><a href="">数码3C</a></div>
+        <div class="layui-card-body">
+          <a href="">Windows专区</a>
+        </div>
+      </div>
+    </div>
+	<div class="layui-col-md6">
+      <div class="layui-card">
+        <div class="layui-card-header"><a href="">板块名</a></div>
+        <div class="layui-card-body">
+          <a href="">内容</a>
+        </div>
+      </div>
+    </div>
+    <div class="layui-col-md6">
+      <div class="layui-card">
+        <div class="layui-card-header"><a href="">板块名</a></div>
+        <div class="layui-card-body">
+          <a href="">内容</a>
+        </div>
+      </div>
+    </div>
+	<div class="layui-col-md6">
+      <div class="layui-card">
+        <div class="layui-card-header"><a href="">板块名</a></div>
+        <div class="layui-card-body">
+          <a href="">内容</a>
+        </div>
+      </div>
+    </div>
+	<div class="layui-col-md6">
+      <div class="layui-card">
+        <div class="layui-card-header"><a href="">板块名</a></div>
+        <div class="layui-card-body">
+          <a href="">内容</a>
+        </div>
+      </div>
+    </div>
+	<div class="layui-col-md6">
+      <div class="layui-card">
+        <div class="layui-card-header"><a href="">板块名</a></div>
+        <div class="layui-card-body">
+          <a href="">内容</a>
+        </div>
+      </div>
+    </div>
+	<div class="layui-col-md6">
+      <div class="layui-card">
+        <div class="layui-card-header"><a href="">板块名</a></div>
+        <div class="layui-card-body">
+          <a href="">内容</a>
+        </div>
+      </div>
+    </div>
+	  
+  </div>
+</div>
+
+<br/> <br/> <br/> <br/> <br/>
+
+      <div>
+        <h3 class="title"><span>热帖・技术区</span><a href="/Forum/jsp/forums.jsp" target="_self" class="morecontent">更多</a>
         </h3>
         <div class="hottopic">
           <span class="topic0">标题</span>
           <span class="topic1">提问人</span>
-          <span class="topic2">回复数</span>
-          <span class="topic3">人气</span>
+          
         </div>
             <ul class="hottopiclist1">
                   <li class="hottopicli">
                     <label class="hotlabel">
-                      <a href="/Forum/jsp/noshery.jsp" class="classify" target="_blank">小吃店</a>
+                    <a href="" class="classify" target="_blank">Windows</a>
                       <em class="classify_dot">・</em>
-                      <a href="/Forum/servlet/DisplayThread?number=1" class="topic_title" target="_blank" title="有关点击js点击事件深层问题求助">有关点击js点击事件深层问题求助</a>
+                      <a href="/Forum/servlet/DisplayThread?Thread_id=1" class="topic_title" target="_self" title="Win7蓝屏">Win7蓝屏</a>
                     </label>
-                    <a href="" class="questioner"  rel="nofollow" target="_blank" title="love_yzm">love_yzm</a>
-                    <span class="reply_num">17</span>
-                    <span class="view">141</span>
+                    <a href="/Forum/servlet/DisplayThread?Thread_id=1" class="questioner"  rel="nofollow" target="_self" title="user">user</a>
+                    
                   </li>
                   <li class="hottopicli">
                     <label class="hotlabel">
-                      <a href="/forums/VBDotNET" class="classify" target="_blank">餐馆</a>
+                      <a href="" class="classify" target="_blank">Linux</a>
                       <em class="classify_dot">・</em>
-                      <a href="/Forum/servlet/DisplayThread?number=2" class="topic_title" target="_blank" title="有微软的吗？有人说String.IsNullOrEmpty函数有BUG至今未被修复">有微软的吗？有人说String.IsNullOrEmpty函数有BUG至今未被修复</a>
+                      <a href="/Forum/servlet/DisplayThread?Thread_id=2" class="topic_title" target="_self" title="Deepin进不去">Deepin进不去</a>
                     </label>
-                    <a href="" class="questioner" rel="nofollow" target="_blank" title="New佳佳">New佳佳</a>
-                    <span class="reply_num">33</span>
-                    <span class="view">884</span>
+                    <a href="/Forum/servlet/DisplayThread?Thread_id=2" class="questioner" rel="nofollow" target="_self" title="user">user</a>
+                    
                   </li>
                   <li class="hottopicli">
                     <label class="hotlabel">
-                      <a href="/forums/ASPDotNET" class="classify" target="_blank">酒店</a>
+                      <a href="" class="classify" target="_blank">macOS</a>
                       <em class="classify_dot">・</em>
-                      <a href="/Forum/servlet/DisplayThread?number=3" class="topic_title" target="_blank" title="页面查询数据查询超过两万条数据时无法显示？？？">页面查询数据查询超过两万条数据时无法显示？？？</a>
+                      <a href="/Forum/servlet/DisplayThread?Thread_id=3" class="topic_title" target="_self" title="更新到10.14无限重启">更新到10.14无限重启</a>
                     </label>
-                    <a href="" class="questioner" rel="nofollow" target="_blank" title="吃瓜日常">吃瓜日常</a>
-                    <span class="reply_num">36</span>
-                    <span class="view">1127</span>
+                    <a href="/Forum/servlet/DisplayThread?Thread_id=3" class="questioner" rel="nofollow" target="_self" title="user">user</a>
+                    
                   </li>                            
             </ul>
       </div>
-       <br> <br> <br> <br> <br><br>
-	<div>
-		<label>版主推荐区</label>
-	</div>
-	<br>
-	<br>
-
-  </body>
+      
+      
+      
+</body>
 </html>

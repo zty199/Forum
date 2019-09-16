@@ -73,18 +73,19 @@ public class ReplyDao {
 	/*public Reply getInfo(int id) throws SQLException {
         String sql = "select * from Replys where Reply_id = " + id;
         Connection conn = DBHelper.getCon();
-        Reply Reply = new Reply();
+        Reply reply = new Reply();
         try {
         	PreparedStatement pst = conn.prepareStatement(sql);
         	ResultSet rs = pst.executeQuery();
         	while(rs.next())
         	{
-        		Reply.setFid(rs.getInt("Forum_id"));
-        		Reply.setTid(rs.getInt("Thread_id"));
-        		Reply.setRid(rs.getInt("Reply_id"));
-        		Reply.setRc(rs.getString("Reply_content"));
-        		Reply.setUser(rs.getString("User"));
-        		Reply.setDate(rs.getTimestamp("Date"));
+        		reply.setReply_id(id);
+        		reply.setForum_big(rs.getString("Forum_big"));
+        		reply.setForum_small(rs.getString("Forum_small"));
+        		reply.setThread_id(rs.getInt("Thread_id"));
+        		reply.setReply_content(rs.getString("Reply_content"));
+        		reply.setReply_writer(rs.getString("Reply_writer"));
+        		reply.setReply_date(rs.getTimestamp("Reply_date"));
         	}
         	rs.close();
         	pst.close();
@@ -95,13 +96,12 @@ public class ReplyDao {
     }
 	
 	public boolean modifyReply(int id) throws SQLException {
-    	String sql = "update replies set Reply_content = ? where Id = ?";
+    	String sql = "update replies set Reply_content = ? where Reply_id =" + id;
     	Connection conn = DBHelper.getCon();
-    	Reply Reply = new Reply();
+    	Reply reply = new Reply();
     	try {			
     		PreparedStatement pst = conn.prepareStatement(sql);
-    		pst.setString(1, Reply.getRc());
-    		pst.setInt(2, id);
+    		pst.setString(1, reply.getReply_content());
     		int flag = pst.executeUpdate();
     		pst.close();
     		return flag > 0 ? true : false;

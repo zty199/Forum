@@ -2,8 +2,6 @@ package com.forum.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -26,13 +24,23 @@ public class DisplayThread extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=utf-8");
 		request.setCharacterEncoding("utf-8");
-		ReplyDao dao = new ReplyDao();
-		int id = Integer.parseInt(request.getParameter("number"));
-		ThreadDao dao1 = new ThreadDao();
-		Thread thread = new Thread();
+		int id = Integer.parseInt(request.getParameter("Thread_id"));
 		try {
-			thread = dao1.getInfo(id);
-			String a = thread.getForum_big();
+			ThreadDao dao = new ThreadDao();
+			Thread thread = new Thread();
+			thread = dao.getInfo(id);
+			ReplyDao dao1 = new ReplyDao();
+			List<Reply> list = null;
+			list = dao1.getAllReply(id);
+			request.getSession().setAttribute("thread", thread);
+			request.getSession().setAttribute("list", list);
+			response.sendRedirect("../jsp/replytiezi.jsp");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+			/*String a = thread.getForum_big();
 			String b = thread.getForum_small();
 			String c = thread.getThread_title();
 			String d = thread.getThread_writer();
@@ -44,28 +52,15 @@ public class DisplayThread extends HttpServlet {
 	            g = format.format(ts);
 	        } catch (Exception e) {
 	            e.printStackTrace();
-	        }
-			List<Reply> list = dao.getAllReply(id);
-			request.getSession().setAttribute("list", list);
-			request.getSession().setAttribute("para1", a);
+	        }*/
+	        
+			/*request.getSession().setAttribute("para1", a);
 			request.getSession().setAttribute("para2", b);
 			request.getSession().setAttribute("para3", c);
 			request.getSession().setAttribute("para4", d);
 			request.getSession().setAttribute("para5", f);
-			request.getSession().setAttribute("para6", g);
-			response.sendRedirect("../jsp/replytiezi.jsp");
-			/*response.sendRedirect("../jsp/replytiezi.jsp?para1="+encodeURI(encodeURI(a))+"&para2="+b+"&para3="+c+"&para4="+d+"&para5="+f+"&para6="+g);
-			out.println(a);
-			out.println(b);
-			out.println(c);
-			out.println(d);	
-			out.println(f);//在head里面，title不行
-			out.println(g);
-			out.close();*/					     	
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			request.getSession().setAttribute("para6", g);*/	     	
+		
 	}
 
 }

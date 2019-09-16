@@ -2,6 +2,7 @@ package com.forum.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,30 +24,27 @@ public class Submitwrite extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
         request.setCharacterEncoding("utf-8");	
         Thread thread = new Thread();
-        String a = request.getParameter("Forum_big");
-        String b = request.getParameter("Forum_small");
-        String c = request.getParameter("Thread_title");
-        String d = request.getParameter("Thread_content");
-        String f = request.getParameter("Thread_writer");
 		thread.setForum_big(request.getParameter("Forum_big"));
 		thread.setForum_small(request.getParameter("Forum_small"));
 		thread.setThread_title(request.getParameter("Thread_title"));
 		thread.setThread_content(request.getParameter("Thread_content"));
 		thread.setThread_writer(request.getParameter("Thread_writer"));
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		thread.setThread_date(timestamp);
         ThreadDao dao = new ThreadDao();
-        if(a.equals("")||b.equals("")||c.equals("")||d.equals("")||f.equals("")) {
-			JOptionPane.showMessageDialog(null, "请将文章信息填写完整！");
+        if(thread.getForum_big().equals("")||thread.getForum_small().equals("")||thread.getThread_title().equals("")||thread.getThread_content().equals("")||thread.getThread_writer().equals("")) {
+			JOptionPane.showMessageDialog(null, "信息不完整，请重新填写！");
 			response.sendRedirect("../jsp/writetiezi.jsp");
 			return;
 		}
         try {
         	if (dao.addThread(thread)) {
-        		JOptionPane.showMessageDialog(null, "发布成功！");
-        		response.sendRedirect("../jsp/index.jsp");
+        		JOptionPane.showMessageDialog(null, "帖子发布成功！");
+        		response.sendRedirect("../servlet/DisplayThread?Thread_id=" + thread.getThread_id());
         		return;
         	} else {
         		JOptionPane.showMessageDialog(null, "未知原因，发布失败！");
-        		response.sendRedirect("../jsp/index.jsp");
+        		response.sendRedirect("../jsp/writetiezi.jsp");
         	}
         } catch (SQLException e) {
 			// TODO Auto-generated catch block

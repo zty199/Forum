@@ -25,7 +25,7 @@ usr = (User)request.getSession().getAttribute("usr");
 	-->
 
   </head>
-  
+  <jsp:include page="isAdmin.jsp"></jsp:include>
   <body>
     <center>
     <form action="servlet/AddForum" method="post">

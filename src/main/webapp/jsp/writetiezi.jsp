@@ -20,9 +20,9 @@ usr = (User) session.getAttribute("usr");
     <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
     <meta http-equiv="description" content="This is my page">
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <link rel="stylesheet" type="text/css" href="/Forum/jsp/NewFile.css" />
-    <link rel="stylesheet" type="text/css" href="/Forum/jsp/NewFile1.css" />
-    <link rel="stylesheet" type="text/css" href="/Forum/jsp/NewFile2.css" />
+    <link rel="stylesheet" type="text/css" href="/Forum/css/NewFile.css" />
+    <link rel="stylesheet" type="text/css" href="/Forum/css/NewFile1.css" />
+    <link rel="stylesheet" type="text/css" href="/Forum/css/NewFile2.css" />
     
   </head>
   <body background="images/index.jpg">

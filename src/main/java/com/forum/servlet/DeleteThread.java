@@ -32,7 +32,7 @@ public class DeleteThread extends HttpServlet {
 				response.sendRedirect("../jsp/managethreads.jsp");
 				return;
 			} else {
-				JOptionPane.showMessageDialog(null, "未知原因，删除失败或删除不完全！");
+				JOptionPane.showMessageDialog(null, "未知原因，删除失败或回帖为空，请检查数据库！");
 				response.sendRedirect("../jsp/managethreads.jsp");
 			}
 		} catch (HeadlessException | SQLException e) {

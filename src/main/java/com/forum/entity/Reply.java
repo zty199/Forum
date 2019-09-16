@@ -6,6 +6,7 @@ public class Reply {
 	
 	private int Reply_id;
 	private int Thread_id;
+	private String Forum_big;
 	private String Forum_small;
 	private String Reply_content;
 	private String Reply_writer;
@@ -22,6 +23,12 @@ public class Reply {
 	}
 	public void setThread_id(int Thread_id) {
 		this.Thread_id = Thread_id;
+	}
+	public String getForum_big() {
+		return Forum_big;
+	}
+	public void setForum_big(String Forum_big) {
+		this.Forum_big = Forum_big;
 	}
 	public String getForum_small() {
 		return Forum_small;

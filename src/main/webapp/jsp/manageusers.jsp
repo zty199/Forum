@@ -25,6 +25,7 @@ usr = (User) session.getAttribute("usr");
 	-->
 
   </head>
+  <jsp:include page="isAdmin.jsp"></jsp:include>
   <body>
     <center>
     <table border="1">
