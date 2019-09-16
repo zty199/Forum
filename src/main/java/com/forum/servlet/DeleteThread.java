@@ -29,11 +29,11 @@ public class DeleteThread extends HttpServlet {
         try {
 			if(dao.delThread(id) && dao1.delAllReply(id)) {
 				JOptionPane.showMessageDialog(null, "删除成功！");
-				response.sendRedirect("../jsp/threads.jsp");
+				response.sendRedirect("../jsp/managethreads.jsp");
 				return;
 			} else {
 				JOptionPane.showMessageDialog(null, "未知原因，删除失败或删除不完全！");
-				response.sendRedirect("../jsp/threads.jsp");
+				response.sendRedirect("../jsp/managethreads.jsp");
 			}
 		} catch (HeadlessException | SQLException e) {
 			// TODO Auto-generated catch block

@@ -27,11 +27,11 @@ public class DeleteUser extends HttpServlet {
         try {
 			if(dao.delUser(id)) {
 				JOptionPane.showMessageDialog(null, "删除成功！");
-				response.sendRedirect("../jsp/users.jsp");
+				response.sendRedirect("../jsp/manageusers.jsp");
 				return;
 			} else {
 				JOptionPane.showMessageDialog(null, "未知原因，删除失败！");
-				response.sendRedirect("../jsp/users.jsp");
+				response.sendRedirect("../jsp/manageusers.jsp");
 			}
 		} catch (HeadlessException | SQLException e) {
 			// TODO Auto-generated catch block

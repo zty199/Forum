@@ -46,11 +46,11 @@ public class AddForum extends HttpServlet {
 			        } else {
 			        	if(dao.addForum(forum)) {
 			        		JOptionPane.showMessageDialog(null, "新建版块成功！");
-					        response.sendRedirect("../jsp/forums.jsp");
+					        response.sendRedirect("../jsp/manageforums.jsp");
 					        return;
 			        	} else {
 			        		JOptionPane.showMessageDialog(null, "未知错误，新建版块失败！");
-					        response.sendRedirect("../jsp/forums.jsp");
+					        response.sendRedirect("../jsp/manageforums.jsp");
 			        	}
 			        }
 			    }

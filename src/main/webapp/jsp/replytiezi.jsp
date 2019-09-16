@@ -12,7 +12,7 @@ usr = (User) session.getAttribute("usr");
   <head>
     <base href="<%=basePath%>">
   
-    <title>发起帖子界面</title>
+    <title>回复帖子界面</title>
     
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache,must-revalidate">
@@ -60,9 +60,7 @@ usr = (User) session.getAttribute("usr");
 			</div>
 		</span> <a href="/Forum/jsp/writetiezi.jsp" class="write">我要发帖</a> 
 		<%
-			String user = null;
-			user = (String) session.getAttribute("uname");
-			if (user == null) {
+			if (usr == null) {
 		%>
 		<a href="/Forum/jsp/login.jsp" class="buttonlogin">登录</a> <a
 			href="/Forum/jsp/register.jsp" class="buttonregister">注册</a>
@@ -97,7 +95,7 @@ usr = (User) session.getAttribute("usr");
 		<a href="" class="store">收藏帖子</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<a href="#replytext" class="reply">回复</a>
 	</div>
-	<% ArrayList list = (ArrayList)session.getAttribute("list"); %>
+	<% List list = (List)session.getAttribute("list"); %>
 	<div class="onetable">
 		<dl class="replydl">
 			<dt class="replydt">

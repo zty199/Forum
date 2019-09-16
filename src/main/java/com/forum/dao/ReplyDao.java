@@ -2,12 +2,38 @@ package com.forum.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.forum.entity.Reply;
 
 public class ReplyDao {
+	
+	public List<Reply> getAllReply(int id)  throws SQLException {
+		List<Reply> list =new ArrayList<Reply>();
+    	String sql = "select Reply_content,Reply_writer,Reply_date from replies where Thread_id = " + id;
+    	Connection conn = DBHelper.getCon();			
+    	try {
+            PreparedStatement pst = conn.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            while(rs.next())
+            {
+            	Reply reply = new Reply();
+            	reply.setReply_content(rs.getString("Reply_content"));
+            	reply.setReply_writer(rs.getString("Reply_writer"));
+            	reply.setReply_date(rs.getTimestamp("Reply_date"));
+            	list.add(reply);
+            }
+            rs.close();
+            pst.close();
+        } catch (SQLException e) {
+        	e.printStackTrace();
+        }
+        return list;
+    }
 	
 	public boolean addReply(Reply Reply) throws SQLException {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());

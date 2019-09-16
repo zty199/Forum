@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.forum.dao.DisplayDao;
+import com.forum.dao.ReplyDao;
 import com.forum.dao.ThreadDao;
 import com.forum.entity.Reply;
 import com.forum.entity.Thread;
@@ -26,7 +26,7 @@ public class DisplayThread extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=utf-8");
 		request.setCharacterEncoding("utf-8");
-		DisplayDao dao = new DisplayDao();
+		ReplyDao dao = new ReplyDao();
 		int id = Integer.parseInt(request.getParameter("number"));
 		ThreadDao dao1 = new ThreadDao();
 		Thread thread = new Thread();
@@ -45,7 +45,7 @@ public class DisplayThread extends HttpServlet {
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
-			ArrayList<Reply> list = dao.getlist(id);
+			List<Reply> list = dao.getAllReply(id);
 			request.getSession().setAttribute("list", list);
 			request.getSession().setAttribute("para1", a);
 			request.getSession().setAttribute("para2", b);

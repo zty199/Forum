@@ -29,9 +29,9 @@ usr = (User)request.getSession().getAttribute("usr");
     <center>
     <table border="1">
       <caption>管理员操作列表</caption>
-      <tr><td><center><input type="button" value="用户列表" onclick="window.location.href='/Forum/jsp/users.jsp';"/></center></td></tr>
-      <tr><td><center><input type="button" value="板块列表" onclick="window.location.href='/Forum/jsp/forums.jsp';"/></center></td></tr>
-      <tr><td><center><input type="button" value="帖子列表" onclick="window.location.href='/Forum/jsp/threads.jsp';"/></center></td></tr>
+      <tr><td><center><input type="button" value="用户列表" onclick="window.location.href='/Forum/jsp/manageusers.jsp';"/></center></td></tr>
+      <tr><td><center><input type="button" value="板块列表" onclick="window.location.href='/Forum/jsp/manageforums.jsp';"/></center></td></tr>
+      <tr><td><center><input type="button" value="帖子列表" onclick="window.location.href='/Forum/jsp/managethreads.jsp';"/></center></td></tr>
       <tr><td><center><input type="button" value="退出管理" onclick="window.location.href='/Forum/jsp/index.jsp';"/></center></td></tr>
     </table>
     </center>

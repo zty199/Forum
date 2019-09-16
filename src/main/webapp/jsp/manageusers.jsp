@@ -1,10 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ page import="com.forum.dao.ForumDao,com.forum.entity.User,com.forum.entity.Forum"%>
+<%@ page import="com.forum.dao.UserDao,com.forum.entity.User"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 User usr = new User();
-usr = (User)request.getSession().getAttribute("usr");
+usr = (User) session.getAttribute("usr");
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -12,7 +12,7 @@ usr = (User)request.getSession().getAttribute("usr");
   <head>
     <base href="<%=basePath%>">
     
-    <title>板块管理</title>
+    <title>用户管理</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -28,13 +28,16 @@ usr = (User)request.getSession().getAttribute("usr");
   <body>
     <center>
     <table border="1">
-      <caption>版块列表</caption>
+      <caption>用户列表</caption>
       <tr>
-          <td><center>版块ID</center></td>
-          <td><center>版块标题</center></td>
-          <td><center>版块信息</center></td>
-          <td><center>版块类型</center></td>
-          <td colspan="2"><center>操作选项</center></td>
+          <td><center>用户ID</center></td>
+          <td><center>用户名</center></td>
+          <td><center>密码</center></td>
+          <td><center>管理员权限</center></td>
+          <td><center>注册日期</center></td>
+          <td><center>电话</center></td>
+          <td><center>邮箱</center></td>
+          <td><center>操作选项</center></td>
       </tr>
       <%
           int per = 4, total = 1, current = 1;
@@ -47,23 +50,26 @@ usr = (User)request.getSession().getAttribute("usr");
               current = Integer.valueOf(request.getParameter("current"));
           if(current <= 0) current = 1;
           else if(current > total) current = total;
-          ForumDao dao = new ForumDao();
-          List<Forum> list = dao.getAllForum();
+          UserDao dao = new UserDao();
+          List<User> list = dao.getAllUser();
           total = list.size() / per;
           if(list.size() % per != 0)
               total += 1;
           int i;
           for(i = (current - 1) * per; i < (current * per >= list.size() ? list.size() : current * per); i++) {
-              Forum forum = list.get(i);
+              User user = list.get(i);
       %>
               <tr>
-                <td><center><%=forum.getId()%></center></td>
-                <td><center><%=forum.getTitle()%></center></td>
-                <td><center><%=forum.getInfo()%></center></td>
-                <td><center><%=forum.getType()%></center></td>
-                <td colspan="2">
+                <td><center><%=user.getUserid()%></center></td>
+                <td><center><%=user.getUsername()%></center></td>
+                <td><center><%=user.getPwd()%></center></td>
+                <td><center><%=user.getAdmin()%></center></td>
+                <td><center><%=user.getDate()%></center></td>
+                <td><center><%=user.getPhone()%></center></td>
+                <td><center><%=user.getMail()%></center></td>
+                <td>
                   <center>
-                    <input type="button" value="修改" onclick="window.location.href='/Forum/jsp/modifyforum.jsp?fid=<%=forum.getId()%>';"/>
+                    <input type="button" value="删除" onclick="window.location.href='/Forum/servlet/DeleteUser?uid=<%=user.getUserid()%>';"/>
                   </center>
                 </td>
               </tr>
@@ -71,22 +77,17 @@ usr = (User)request.getSession().getAttribute("usr");
           }
       %>
       <tr>
-        <td colspan="2"><form name="form1" action="jsp/forums.jsp?total=<%=total%>" method="post">每页显示<input type="text" name="per" size="5" value="<%=per%>"/>条<input type="submit" value="确定"/></form></td>
-        <td colspan="2"><form name="form2" action="jsp/forums.jsp?per=<%=per%>&total=<%=total%>" method="post">第<input type="text" name="current" size="5" value="<%=current%>"/>页，共<%=total%>页<input type="submit" value="跳转"/></form></td>
+        <td colspan="3"><form name="form1" action="jsp/manageusers.jsp?total=<%=total%>" method="post">每页显示<input type="text" name="per" size="5" value="<%=per%>"/>条<input type="submit" value="确定"/></form></td>
+        <td colspan="3"><form name="form2" action="jsp/manageusers.jsp?per=<%=per%>&total=<%=total%>" method="post">第<input type="text" name="current" size="5" value="<%=current%>"/>页，共<%=total%>页<input type="submit" value="跳转"/></form></td>
         <td>
-          <input type="button" value="上一页" onclick="window.location.href='/Forum/jsp/forums.jsp?per=<%=per%>&total=<%=total%>&current=<%=current-1%>';"/>
+          <input type="button" value="上一页" onclick="window.location.href='/Forum/jsp/manageusers.jsp?per=<%=per%>&total=<%=total%>&current=<%=current-1%>';"/>
         </td>
         <td>
-          <input type="button" value="下一页" onclick="window.location.href='/Forum/jsp/forums.jsp?per=<%=per%>&total=<%=total%>&current=<%=current+1%>';"/>
+          <input type="button" value="下一页" onclick="window.location.href='/Forum/jsp/manageusers.jsp?per=<%=per%>&total=<%=total%>&current=<%=current+1%>';"/>
         </td>
       </tr>
       <tr>
-        <td colspan="3">
-          <center>
-            <input type="button" value="新建版块" onclick="window.location.href='/Forum/jsp/addforum.jsp';"/>
-          </center>
-        </td>
-        <td colspan="3">
+        <td colspan="8">
           <center>
             <input type="button" value="返回" onclick="window.location.href='/Forum/jsp/administrator.jsp';"/>
           </center>

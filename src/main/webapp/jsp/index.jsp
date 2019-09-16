@@ -4,7 +4,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 User usr = null;
-usr = (User)session.getAttribute("usr");
+usr = (User) session.getAttribute("usr");
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">

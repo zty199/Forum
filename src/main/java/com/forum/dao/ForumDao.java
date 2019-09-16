@@ -33,6 +33,50 @@ public class ForumDao {
         return list;
     }
 	
+	public List<Forum> getForum_big() {
+        List<Forum> list = new ArrayList<Forum>();
+        String sql = "select * from forums where Forum_type = 1";
+        Connection conn = DBHelper.getCon();        
+        try {
+            PreparedStatement pst = conn.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            while(rs.next())
+            {
+            	Forum forum = new Forum();
+            	forum.setId(rs.getInt("Forum_id"));
+            	forum.setTitle(rs.getString("Forum_title"));
+            	forum.setInfo(rs.getString("Forum_info"));
+            	forum.setType(rs.getBoolean("Forum_type"));
+                list.add(forum);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+	
+	public List<Forum> getForum_small() {
+        List<Forum> list = new ArrayList<Forum>();
+        String sql = "select * from forums where Forum_type = 0";
+        Connection conn = DBHelper.getCon();        
+        try {
+            PreparedStatement pst = conn.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            while(rs.next())
+            {
+            	Forum forum = new Forum();
+            	forum.setId(rs.getInt("Forum_id"));
+            	forum.setTitle(rs.getString("Forum_title"));
+            	forum.setInfo(rs.getString("Forum_info"));
+            	forum.setType(rs.getBoolean("Forum_type"));
+                list.add(forum);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+	
 	public Forum getInfo(int id) throws SQLException {
         String sql = "select * from forums where Forum_id = " + id;
         Connection conn = DBHelper.getCon();

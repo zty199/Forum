@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ page import="com.forum.dao.ThreadDao,com.forum.entity.User,com.forum.entity.Thread"%>
+<%@ page import="com.forum.dao.ForumDao,com.forum.entity.User,com.forum.entity.Forum"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -12,7 +12,7 @@ usr = (User)request.getSession().getAttribute("usr");
   <head>
     <base href="<%=basePath%>">
     
-    <title>帖子管理</title>
+    <title>板块管理</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -28,14 +28,12 @@ usr = (User)request.getSession().getAttribute("usr");
   <body>
     <center>
     <table border="1">
-      <caption>帖子列表</caption>
+      <caption>版块列表</caption>
       <tr>
-          <td><center>帖子ID</center></td>
-          <td><center>所属大板块</center></td>
-          <td><center>所属小版块</center></td>
-          <td><center>标题</center></td>
-          <td><center>发帖人</center></td>
-          <td><center>发帖日期</center></td>
+          <td><center>版块ID</center></td>
+          <td><center>版块标题</center></td>
+          <td><center>版块信息</center></td>
+          <td><center>版块类型</center></td>
           <td colspan="2"><center>操作选项</center></td>
       </tr>
       <%
@@ -49,25 +47,23 @@ usr = (User)request.getSession().getAttribute("usr");
               current = Integer.valueOf(request.getParameter("current"));
           if(current <= 0) current = 1;
           else if(current > total) current = total;
-          ThreadDao dao = new ThreadDao();
-          List<Thread> list = dao.getAllThread();
+          ForumDao dao = new ForumDao();
+          List<Forum> list = dao.getAllForum();
           total = list.size() / per;
           if(list.size() % per != 0)
               total += 1;
           int i;
           for(i = (current - 1) * per; i < (current * per >= list.size() ? list.size() : current * per); i++) {
-              Thread thread = list.get(i);
+              Forum forum = list.get(i);
       %>
               <tr>
-                <td><center><%=thread.getThread_id()%></center></td>
-                <td><center><%=thread.getForum_big()%></center></td>
-                <td><center><%=thread.getForum_small()%></center></td>
-                <td><center><%=thread.getThread_title()%></center></td>
-                <td><center><%=thread.getThread_writer()%></center></td>
-                <td><center><%=thread.getThread_date()%></center></td>
+                <td><center><%=forum.getId()%></center></td>
+                <td><center><%=forum.getTitle()%></center></td>
+                <td><center><%=forum.getInfo()%></center></td>
+                <td><center><%=forum.getType()%></center></td>
                 <td colspan="2">
                   <center>
-                    <input type="button" value="删除" onclick="window.location.href='/Forum/servlet/DeleteThread?tid=<%=thread.getThread_id()%>';"/>
+                    <input type="button" value="修改" onclick="window.location.href='/Forum/jsp/modifyforum.jsp?fid=<%=forum.getId()%>';"/>
                   </center>
                 </td>
               </tr>
@@ -75,17 +71,22 @@ usr = (User)request.getSession().getAttribute("usr");
           }
       %>
       <tr>
-        <td colspan="3"><form name="form1" action="jsp/threads.jsp?total=<%=total%>" method="post">每页显示<input type="text" name="per" size="5" value="<%=per%>"/>条<input type="submit" value="确定"/></form></td>
-        <td colspan="3"><form name="form2" action="jsp/threads.jsp?per=<%=per%>&total=<%=total%>" method="post">第<input type="text" name="current" size="5" value="<%=current%>"/>页，共<%=total%>页<input type="submit" value="跳转"/></form></td>
+        <td colspan="2"><form name="form1" action="jsp/manageforums.jsp?total=<%=total%>" method="post">每页显示<input type="text" name="per" size="5" value="<%=per%>"/>条<input type="submit" value="确定"/></form></td>
+        <td colspan="2"><form name="form2" action="jsp/manageforums.jsp?per=<%=per%>&total=<%=total%>" method="post">第<input type="text" name="current" size="5" value="<%=current%>"/>页，共<%=total%>页<input type="submit" value="跳转"/></form></td>
         <td>
-          <input type="button" value="上一页" onclick="window.location.href='/Forum/jsp/threads.jsp?per=<%=per%>&total=<%=total%>&current=<%=current-1%>';"/>
+          <input type="button" value="上一页" onclick="window.location.href='/Forum/jsp/manageforums.jsp?per=<%=per%>&total=<%=total%>&current=<%=current-1%>';"/>
         </td>
         <td>
-          <input type="button" value="下一页" onclick="window.location.href='/Forum/jsp/threads.jsp?per=<%=per%>&total=<%=total%>&current=<%=current+1%>';"/>
+          <input type="button" value="下一页" onclick="window.location.href='/Forum/jsp/manageforums.jsp?per=<%=per%>&total=<%=total%>&current=<%=current+1%>';"/>
         </td>
       </tr>
       <tr>
-        <td colspan="8">
+        <td colspan="3">
+          <center>
+            <input type="button" value="新建版块" onclick="window.location.href='/Forum/jsp/addforum.jsp';"/>
+          </center>
+        </td>
+        <td colspan="3">
           <center>
             <input type="button" value="返回" onclick="window.location.href='/Forum/jsp/administrator.jsp';"/>
           </center>

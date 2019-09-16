@@ -4,7 +4,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 User usr = new User();
-usr = (User)request.getSession().getAttribute("usr");
+usr = (User) session.getAttribute("usr");
 Forum forum = new Forum();
 ForumDao dao = new ForumDao();
 forum.setId(Integer.parseInt(request.getParameter("fid")));

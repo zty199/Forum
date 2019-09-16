@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ page import="com.forum.dao.UserDao,com.forum.entity.User"%>
+<%@ page import="com.forum.dao.ForumDao,com.forum.dao.UserDao,com.forum.entity.Forum,com.forum.entity.User"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
@@ -108,16 +108,26 @@ usr = (User) session.getAttribute("usr");
 			<br> <br><br> <br>  <label>主题版块 :</label>&nbsp;&nbsp;&nbsp;&nbsp; <select
 				name="Forum_big">
 				<option value="" selected>-选择大版块-</option>
-				<option value="食物">食物</option>
-				<option value="住宿">住宿</option>
-				<option value="服装">服装</option>
+				<%
+				    ForumDao dao = new ForumDao();
+				    List<Forum> list1 = dao.getForum_big();
+				    for(Forum forum:list1) {
+				%>
+				<option value="<%=forum.getTitle()%>"><%=forum.getTitle()%></option>
+				<%
+				    }
+				%>
 			</select>&nbsp;&nbsp;&nbsp;&nbsp; <select 
 				name="Forum_small">
 				<option value="" selected>-选择小版块-</option>
-				<option value="小吃店">小吃店</option>
-				<option value="餐馆">餐馆</option>
-				<option value="酒店">酒店</option>
-				<option value="旅馆">旅馆</option>
+				<%
+				    List<Forum> list2 = dao.getForum_small();
+				    for(Forum forum:list2) {
+				%>
+				<option value="<%=forum.getTitle()%>"><%=forum.getTitle()%></option>
+				<%
+				    }
+				%>
 			</select><br> <br> 		
 			<label>帖子发起者:</label>&nbsp;&nbsp;&nbsp;&nbsp;<select name="Thread_writer" >
 			    <option value="" selected>请选择...</option>
