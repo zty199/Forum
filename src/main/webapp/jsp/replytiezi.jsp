@@ -66,9 +66,9 @@ ReplyDao dao1 = new ReplyDao();
 	  <legend><%=thread.getForum_big()%>&nbsp;>&nbsp;<%=thread.getForum_small()%>&nbsp;・&nbsp;<%=thread.getThread_title()%></legend>
 	</fieldset>
 	
-	<br><br>
+	<br>
 
-  <ul class="layui-timeline">
+  <ul class="layui-timeline" style="margin-left: 20px;">
     <li class="layui-timeline-item">
       <i class="layui-icon layui-timeline-axis"></i>
       <div class="layui-timeline-content layui-text">
