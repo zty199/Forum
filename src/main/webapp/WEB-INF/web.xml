@@ -14,6 +14,10 @@
     <servlet-class>com.forum.servlet.Personal</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>ShowUserInfo</servlet-name>
+    <servlet-class>com.forum.servlet.ShowUserInfo</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>ModifyUserInfo</servlet-name>
     <servlet-class>com.forum.servlet.ModifyUserInfo</servlet-class>
   </servlet>
@@ -28,10 +32,6 @@
   <servlet>
     <servlet-name>DeleteUser</servlet-name>
     <servlet-class>com.forum.servlet.DeleteUser</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>DisplayThread</servlet-name>
-    <servlet-class>com.forum.servlet.DisplayThread</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>DeleteThread</servlet-name>
@@ -68,6 +68,10 @@
     <url-pattern>/servlet/Personal</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
+    <servlet-name>ShowUserInfo</servlet-name>
+    <url-pattern>/servlet/ShowUserInfo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
     <servlet-name>ModifyUserInfo</servlet-name>
     <url-pattern>/servlet/ModifyUserInfo</url-pattern>
   </servlet-mapping>
@@ -82,10 +86,6 @@
   <servlet-mapping>
     <servlet-name>DeleteUser</servlet-name>
     <url-pattern>/servlet/DeleteUser</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>DisplayThread</servlet-name>
-    <url-pattern>/servlet/DisplayThread</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>DeleteThread</servlet-name>

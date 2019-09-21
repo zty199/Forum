@@ -24,16 +24,15 @@ ThreadDao dao = new ThreadDao();
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     
 	<link rel="stylesheet" type="text/css" href="/Forum/css/layui.css" media="all">
-	<link rel="stylesheet" type="text/css" href="/Forum/css/NewFile.css" />
-    <link rel="stylesheet" type="text/css" href="/Forum/css/NewFile1.css" />
-    <link rel="stylesheet" type="text/css" href="/Forum/css/NewFile2.css" />
 
   </head>
+  
   <body bgcolor="#F2F2F2">
-
-	<ul class="layui-nav">
+  
+	<ul class="layui-nav" style=" text-align: right">
 	<li class="layui-nav-item"><a href="/Forum/jsp/index.jsp">主页</a></li>
 	<li class="layui-nav-item"><a href="/Forum/jsp/forums.jsp">版块</a></li>
+	<li class="layui-nav-item"><a href="/Forum/jsp/writetiezi.jsp" target="_blank">我要发贴</a></li>
 	<%
 	if (usr == null) {
 	%>
@@ -42,147 +41,115 @@ ThreadDao dao = new ThreadDao();
 	<%
 	} else {
 	%>
-	<li class="layui-nav-item"><a href="/Forum/jsp/personal.jsp">个人中心</a></li>
-	<li class="layui-nav-item"><a href="/Forum/jsp/writetiezi.jsp">我要发贴</a></li>
-	<li class="layui-nav-item"><a href="/Forum/jsp/logout.jsp">注销</a></li>	
+	<li class="layui-nav-item">
+	  <a href="/Forum/jsp/personal.jsp" target="_blank">个人中心</a>
+	  <%
+	      if (usr.getAdmin()) {
+	  %>
+      <dl class="layui-nav-child">
+        <dd class="layui-this"><a href="/Forum/jsp/administrator.jsp" target="_blank"><i class="layui-icon layui-icon-user"></i>&nbsp;&nbsp;管理员</a></dd>
+      </dl>
+      <%
+	      }
+	  %>
+    </li>
+	<li class="layui-nav-item"><a href="/Forum/jsp/logout.jsp">退出</a></li>	
 	<%
-	    if (usr.getAdmin()) {
-	%>
-	<li class="layui-nav-item"><a href="/Forum/jsp/administrator.jsp">管理员</a></li>
-	<%
-	    }
 	}
 	%>
 	</ul>
+	
+	<fieldset class="layui-elem-field layui-field-title" style=" margin-top: 30px;">
+	  <legend>精选帖子・热帖区</legend>
+	</fieldset>
  
-<div style="padding: 20px; background-color: #F2F2F2;">
-  <div class="layui-row layui-col-space15">
-    <div class="layui-col-md6">
-      <div class="layui-card">
-        <div class="layui-card-header"><a href="">Windows</a></div>
-        <div class="layui-card-body">
-        <a href="">Windows专区</a>
+	<div style="padding: 20px; background-color: #F2F2F2;">
+  	  <div class="layui-row layui-col-space15">
+	    <div class="layui-col-md6">
+          <div class="layui-card">
+            <div class="layui-card-header"><a href="/Forum/jsp/threads.jsp?Forum_id=1">Windows —— Windows专区</a></div>
+            <div class="layui-card-body">
+              <a href="/Forum/jsp/replytiezi.jsp?Thread_id=1">Win7蓝屏</a>
+            </div>
+          </div>
+        </div>
+      <div class="layui-col-md6">
+        <div class="layui-card">
+          <div class="layui-card-header"><a href="/Forum/jsp/threads.jsp?Forum_id=2">Linux —— Linux专区</a></div>
+          <div class="layui-card-body">
+            <a href="/Forum/jsp/replytiezi.jsp?Thread_id=2">Deepin进不去</a>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="layui-col-md6">
-      <div class="layui-card">
-        <div class="layui-card-header"><a href="">Linux</a></div>
-        <div class="layui-card-body">
-          <a href="">Linux专区</a>
+	  <div class="layui-col-md6">
+        <div class="layui-card">
+          <div class="layui-card-header"><a href="/Forum/jsp/threads.jsp?Forum_id=3">macOS —— macOS专区</a></div>
+          <div class="layui-card-body">
+            <a href="/Forum/jsp/replytiezi.jsp?Thread_id=3">更新到10.14无限重启</a>
+          </div>
         </div>
       </div>
-    </div>
-	<div class="layui-col-md6">
-      <div class="layui-card">
-        <div class="layui-card-header"><a href="">macOS</a></div>
-        <div class="layui-card-body">
-          <a href="">macOS专区</a>
+      <div class="layui-col-md6">
+        <div class="layui-card">
+          <div class="layui-card-header"><a href="/Forum/jsp/threads.jsp?Forum_id=4">数码3C —— 数码3C资讯</a></div>
+          <div class="layui-card-body">
+            <a href="/Forum/jsp/replytiezi.jsp?Thread_id=4">三星Note7自燃</a>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="layui-col-md6">
-      <div class="layui-card">
-        <div class="layui-card-header"><a href="">数码3C</a></div>
-        <div class="layui-card-body">
-          <a href="">Windows专区</a>
+	  <div class="layui-col-md6">
+        <div class="layui-card">
+          <div class="layui-card-header"><a href="">板块名</a></div>
+          <div class="layui-card-body">
+            <a href="">内容</a>
+          </div>
         </div>
       </div>
-    </div>
-	<div class="layui-col-md6">
-      <div class="layui-card">
-        <div class="layui-card-header"><a href="">板块名</a></div>
-        <div class="layui-card-body">
-          <a href="">内容</a>
+      <div class="layui-col-md6">
+        <div class="layui-card">
+          <div class="layui-card-header"><a href="">板块名</a></div>
+          <div class="layui-card-body">
+            <a href="">内容</a>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="layui-col-md6">
-      <div class="layui-card">
-        <div class="layui-card-header"><a href="">板块名</a></div>
-        <div class="layui-card-body">
-          <a href="">内容</a>
+	  <div class="layui-col-md6">
+        <div class="layui-card">
+          <div class="layui-card-header"><a href="">板块名</a></div>
+          <div class="layui-card-body">
+            <a href="">内容</a>
+          </div>
         </div>
       </div>
-    </div>
-	<div class="layui-col-md6">
-      <div class="layui-card">
-        <div class="layui-card-header"><a href="">板块名</a></div>
-        <div class="layui-card-body">
-          <a href="">内容</a>
+	  <div class="layui-col-md6">
+        <div class="layui-card">
+          <div class="layui-card-header"><a href="">板块名</a></div>
+          <div class="layui-card-body">
+            <a href="">内容</a>
+          </div>
         </div>
       </div>
-    </div>
-	<div class="layui-col-md6">
-      <div class="layui-card">
-        <div class="layui-card-header"><a href="">板块名</a></div>
-        <div class="layui-card-body">
-          <a href="">内容</a>
+	  <div class="layui-col-md6">
+        <div class="layui-card">
+          <div class="layui-card-header"><a href="">板块名</a></div>
+          <div class="layui-card-body">
+            <a href="">内容</a>
+          </div>
         </div>
       </div>
-    </div>
-	<div class="layui-col-md6">
-      <div class="layui-card">
-        <div class="layui-card-header"><a href="">板块名</a></div>
-        <div class="layui-card-body">
-          <a href="">内容</a>
+	  <div class="layui-col-md6">
+        <div class="layui-card">
+          <div class="layui-card-header"><a href="">板块名</a></div>
+          <div class="layui-card-body">
+            <a href="">内容</a>
+          </div>
         </div>
       </div>
+  	  
     </div>
-	<div class="layui-col-md6">
-      <div class="layui-card">
-        <div class="layui-card-header"><a href="">板块名</a></div>
-        <div class="layui-card-body">
-          <a href="">内容</a>
-        </div>
-      </div>
-    </div>
-	  
   </div>
-</div>
+  <br><br>
+  <script src="/Forum/js/layui.all.js" charset="utf-8"></script>
 
-<br/> <br/> <br/> <br/> <br/>
-
-      <div>
-        <h3 class="title"><span>热帖・技术区</span><a href="/Forum/jsp/forums.jsp" target="_self" class="morecontent">更多</a>
-        </h3>
-        <div class="hottopic">
-          <span class="topic0">标题</span>
-          <span class="topic1">提问人</span>
-          
-        </div>
-            <ul class="hottopiclist1">
-                  <li class="hottopicli">
-                    <label class="hotlabel">
-                    <a href="" class="classify" target="_blank">Windows</a>
-                      <em class="classify_dot">・</em>
-                      <a href="/Forum/servlet/DisplayThread?Thread_id=1" class="topic_title" target="_self" title="Win7蓝屏">Win7蓝屏</a>
-                    </label>
-                    <a href="/Forum/servlet/DisplayThread?Thread_id=1" class="questioner"  rel="nofollow" target="_self" title="user">user</a>
-                    
-                  </li>
-                  <li class="hottopicli">
-                    <label class="hotlabel">
-                      <a href="" class="classify" target="_blank">Linux</a>
-                      <em class="classify_dot">・</em>
-                      <a href="/Forum/servlet/DisplayThread?Thread_id=2" class="topic_title" target="_self" title="Deepin进不去">Deepin进不去</a>
-                    </label>
-                    <a href="/Forum/servlet/DisplayThread?Thread_id=2" class="questioner" rel="nofollow" target="_self" title="user">user</a>
-                    
-                  </li>
-                  <li class="hottopicli">
-                    <label class="hotlabel">
-                      <a href="" class="classify" target="_blank">macOS</a>
-                      <em class="classify_dot">・</em>
-                      <a href="/Forum/servlet/DisplayThread?Thread_id=3" class="topic_title" target="_self" title="更新到10.14无限重启">更新到10.14无限重启</a>
-                    </label>
-                    <a href="/Forum/servlet/DisplayThread?Thread_id=3" class="questioner" rel="nofollow" target="_self" title="user">user</a>
-                    
-                  </li>                            
-            </ul>
-      </div>
-      
-      
-      
-</body>
+  </body>
 </html>

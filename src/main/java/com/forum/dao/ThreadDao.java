@@ -37,6 +37,31 @@ public class ThreadDao {
         return list;
     }
 	
+	public List<Thread> getThreads(String big) throws SQLException {
+        List<Thread> list = new ArrayList<Thread>();
+        String sql = "select * from threads where Forum_big = '" + big + "' and Thread_id >= 0";
+        Connection conn = DBHelper.getCon();        
+        try {
+            PreparedStatement pst = conn.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            while(rs.next())
+            {
+            	Thread thread = new Thread();
+            	thread.setThread_id(rs.getInt("Thread_id"));
+            	thread.setForum_big(rs.getString("Forum_big"));
+        		thread.setForum_small(rs.getString("Forum_small"));
+        		thread.setThread_title(rs.getString("Thread_title"));
+        		thread.setThread_content(rs.getString("Thread_content"));
+        		thread.setThread_writer(rs.getString("Thread_writer"));
+        		thread.setThread_date(rs.getTimestamp("Thread_date"));
+                list.add(thread);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+	
 	public Thread getInfo(int id) throws SQLException {
         String sql = "select * from threads where Thread_id = " + id;
         Connection conn = DBHelper.getCon();

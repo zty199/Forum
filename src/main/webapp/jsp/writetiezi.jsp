@@ -12,7 +12,7 @@ usr = (User) session.getAttribute("usr");
   <head>
     <base href="<%=basePath%>">
   
-    <title>发起帖子界面</title>
+    <title>发表帖子 - 技术论坛</title>
     
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache,must-revalidate">
@@ -20,128 +20,125 @@ usr = (User) session.getAttribute("usr");
     <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
     <meta http-equiv="description" content="This is my page">
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <link rel="stylesheet" type="text/css" href="/Forum/css/NewFile.css" />
-    <link rel="stylesheet" type="text/css" href="/Forum/css/NewFile1.css" />
-    <link rel="stylesheet" type="text/css" href="/Forum/css/NewFile2.css" />
+    
+    <link rel="stylesheet" href="/Forum/css/layui.css"  media="all">
     
   </head>
-  <body background="images/index.jpg">
-	<br>
-	<div class="topframe">
-		<a href="/Forum/jsp/index.jsp" target="_self">论坛首页</a> <span
-			class="dropdown"> <a href="javascript:void(0);">精选版块</a>
-			<div class="dropdownmenu">
-				<dl>
-					<dt>
-						<a href="/Forum/jsp/food.jsp">食物</a>
-					</dt>
-					<dd>
-						<a href="/Forum/jsp/restaurant.jsp">餐馆</a>&nbsp;&nbsp;<a
-							href="/Forum/jsp/noshery.jsp">小吃店</a>
-					</dd>
-				</dl>
-				<dl>
-					<dt>
-						<a href="/Forum/jsp/accomodation.jsp">住宿</a>
-					</dt>
-					<dd>
-						<a href="/Forum/jsp/restaurant.jsp">酒店</a>&nbsp;&nbsp;<a
-							href="/Forum/jsp/noshery.jsp">旅馆</a>
-					</dd>
-				</dl>
-			</div>
-		</span> <a href="/Forum/jsp/writetiezi.jsp" target="_blank" class="write">我要发帖</a>
-		<%
-			if (usr == null) {
-		%>
-		<a href="/Forum/jsp/login.jsp" class="buttonlogin">登录</a> <a
-			href="/Forum/jsp/register.jsp" class="buttonregister">注册</a>
-		<%
-			} else {
-		%>
-		<a href="/Forum/jsp/logout.jsp" class="exit">注销</a> <span
-			class="buttoncenter"> <a href="javascript:void(0);">个人中心</a>
-			<div class="centerdownmenu">
-				<dl>
-					<a href="/Forum/jsp/personal.jsp?uname=<%=usr.getUsername()%>">普通用户</a>
-				</dl>
-				<dl>
-				<%
-				    if (usr.getAdmin()) {
-				%>
-					<a href="/Forum/jsp/administrator.jsp?uname=<%=usr.getUsername()%>">管理员</a>
-				<%
-				    }
-				%>
-				</dl>
-			</div>
-		</span>
-		<%
-			}
-		%>
-	</div>
-	<br>
-	<br>
-	 <div class="publish">
-		<!--<form name="write" action="../servlet/submitwrite" method="post"
-			enctype="multipart/form-data" >-->
-		<form name="writeform" action="servlet/Submitwrite" method="post" >
-	    <div class="publish0">
-		<input autocomplete="off" type="text" name="Thread_title"
-			placeholder="输入文章标题" style="width: 450px; height: 30px;"
-			class="txtinput"> &nbsp;&nbsp; <select id="point"
-			name="titlepoint" class="selectscore" style="height: 30px;">
-			<option value="0">0</option>
-			<option value="20">20</option>
-			<option value="50">50</option>
-			<option value="100">100</option>
-			<option value="150">150</option>
-			<option value="200">200</option>
-			<option value="250">250</option>
-			<option value="300">300</option>
-			<option value="350">350</option>
-			<option value="400">400</option>
-		</select> 
-		</div>
-		<br> <br>
-			<textarea name="Thread_content" cols="72" rows="20" placeholder="输入文章内容" ></textarea> 
-			<br> <br><br> <br>  <label>主题版块 :</label>&nbsp;&nbsp;&nbsp;&nbsp; <select
-				name="Forum_big">
-				<option value="" selected>-选择大版块-</option>
-				<%
-				    ForumDao dao = new ForumDao();
-				    List<Forum> list1 = dao.getForum_big();
-				    for(Forum forum:list1) {
-				%>
-				<option value="<%=forum.getTitle()%>"><%=forum.getTitle()%></option>
-				<%
-				    }
-				%>
-			</select>&nbsp;&nbsp;&nbsp;&nbsp; <select 
-				name="Forum_small">
-				<option value="" selected>-选择小版块-</option>
-				<%
-				    List<Forum> list2 = dao.getForum_small();
-				    for(Forum forum:list2) {
-				%>
-				<option value="<%=forum.getTitle()%>"><%=forum.getTitle()%></option>
-				<%
-				    }
-				%>
-			</select><br> <br> 		
-			<label>帖子发起者:</label>&nbsp;&nbsp;&nbsp;&nbsp;<select name="Thread_writer" >
-			    <option value="" selected>请选择...</option>
-			    <%
-			        if(usr != null) {
-			    %>
-				<option value="<%=usr.getUsername()%>">本名</option>
-				<%
-				    }
-				%>
-				<option value="无名氏">匿名</option>
-				</select><br><br>
-			<input type="submit" value="提交" class="submit1">	
-		</form>
-		</div>
+  
+  <body bgcolor="#F2F2F2">
+
+	<ul class="layui-nav" style=" text-align: right">
+	<li class="layui-nav-item"><a href="/Forum/jsp/index.jsp">主页</a></li>
+	<li class="layui-nav-item"><a href="/Forum/jsp/forums.jsp">版块</a></li>
+	<li class="layui-nav-item"><a href="/Forum/jsp/writetiezi.jsp" target="_blank">我要发贴</a></li>
+	<%
+	if (usr == null) {
+	%>
+	<li class="layui-nav-item"><a href="/Forum/jsp/login.jsp">登录</a></li>
+	<li class="layui-nav-item"><a href="/Forum/jsp/register.jsp">注册</a></li>
+	<%
+	} else {
+	%>
+	<li class="layui-nav-item">
+	  <a href="/Forum/jsp/personal.jsp" target="_blank">个人中心</a>
+	  <%
+	      if (usr.getAdmin()) {
+	  %>
+      <dl class="layui-nav-child">
+        <dd class="layui-this"><a href="/Forum/jsp/administrator.jsp" target="_blank"><i class="layui-icon layui-icon-user"></i>&nbsp;&nbsp;管理员</a></dd>
+      </dl>
+      <%
+	      }
+	  %>
+    </li>
+	<li class="layui-nav-item"><a href="/Forum/jsp/logout.jsp">退出</a></li>	
+	<%
+	}
+	%>
+	</ul>
+	
+	<fieldset class="layui-elem-field layui-field-title" style=" margin-top: 30px;">
+	  <legend>发表帖子</legend>
+	</fieldset>
+	
+	<form class="layui-form" action="servlet/Submitwrite" method="post">
+      <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-block">
+          <input name="Thread_title" class="layui-input" type="text" placeholder="请输入标题" autocomplete="off">
+        </div>
+      </div>
+     
+      <label class="layui-form-label">选择版块</label>
+      <div class="layui-input-inline">
+        <select name="Forum_big">
+          <option value="" selected>-请选择大版块-</option>
+          <%
+			  ForumDao dao = new ForumDao();
+			  List<Forum> list1 = dao.getForum_big();
+			  for(Forum forum:list1) {
+		  %>
+		  <option value="<%=forum.getTitle()%>"><%=forum.getTitle()%></option>
+		  <%
+			  }
+		  %>
+        </select>
+      </div>
+      &nbsp;
+      <div class="layui-input-inline">
+        <select name="Forum_small">
+          <option value="" selected>-请选择小版块-</option>
+          <%
+			  List<Forum> list2 = dao.getForum_small();
+			  for(Forum forum:list2) {
+		  %>
+		  <option value="<%=forum.getTitle()%>"><%=forum.getTitle()%></option>
+		  <%
+			  }
+		  %>
+        </select>
+      </div>
+      
+      <br><br>
+      
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">帖子内容</label>
+        <div class="layui-input-block" style="border:0px; background:rgba(0, 0, 0, 0);">
+          <textarea class="layui-textarea" placeholder="请输入内容" name="Thread_content"></textarea>
+        </div>
+      </div>
+      
+      <br>
+      
+      <div class="layui-form-item">
+        <label class="layui-form-label">匿名回复</label>
+        <div class="layui-input-block">
+          <input name="close" type="checkbox" lay-skin="switch" lay-text="ON|OFF">
+        </div>
+      </div>
+      
+      <br>
+      
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn" type="submit" lay-filter="demo1" lay-submit=""><i class="layui-icon layui-icon-release"></i>发布</button>
+          <button class="layui-btn layui-btn-primary" type="reset"><i class="layui-icon layui-icon-refresh"></i>清空</button>
+          <button type="button" class="layui-btn layui-btn-primary" onclick="window.location='/Forum/jsp/index.jsp';"><i class="layui-icon layui-icon-return"></i>返回</button>
+        </div>
+      </div>
+      
+      <br>
+      
+    </form>
+    
+    <script src="/Forum/js/layui.all.js" charset="utf-8"></script>
+    <script>
+    layui.$('#LAY-component-form-setval').on('click', function() {
+      form.val('example', {
+        "close": true
+      });
+    });
+    </script>
+    
   </body>
 </html>

@@ -99,6 +99,28 @@ public class ForumDao {
         return forum;
     }
 	
+	public Forum getForum(String title) throws SQLException {
+        String sql = "select * from forums where Forum_title = '" + title + "' and Forum_id >= 0";
+        Connection conn = DBHelper.getCon();
+        Forum forum = new Forum();
+        try {
+        	PreparedStatement pst = conn.prepareStatement(sql);
+        	ResultSet rs = pst.executeQuery();
+        	while(rs.next())
+        	{
+        		forum.setId(rs.getInt("Forum_id"));
+        		forum.setTitle(rs.getString("Forum_title"));
+        		forum.setInfo(rs.getString("Forum_info"));
+        		forum.setType(rs.getBoolean("Forum_type"));
+        	}
+        	rs.close();
+        	pst.close();
+        } catch (SQLException e) {
+    		e.printStackTrace();
+    	}
+        return forum;
+    }
+	
 	public boolean isExisted(String title) throws SQLException {
 		String sql = "select * from forums where Forum_Title = '" + title + "'";
 		Connection conn = DBHelper.getCon();

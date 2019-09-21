@@ -29,7 +29,9 @@ public class ModifyForumInfo extends HttpServlet {
 		String temp = forum.getTitle();
 		forum.setInfo(request.getParameter("info"));
 		String str = request.getParameter("type");
-		int n = Integer.parseInt(str);
+		int n = 0;
+		if(str != "")
+			n = Integer.parseInt(str);
 		forum.setType(n > 0 ? true : false);
 		if(forum.getTitle().equals("")) {
 			JOptionPane.showMessageDialog(null, "版块名称不能为空！");
@@ -50,11 +52,11 @@ public class ModifyForumInfo extends HttpServlet {
 			        } else {
 			        	if(dao.modifyForum(forum)) {
 			        		JOptionPane.showMessageDialog(null, "修改版块信息成功！");
-					        response.sendRedirect("../jsp/modifyforum.jsp?fid=" + forum.getId());
+					        response.sendRedirect("../jsp/manageforums.jsp");
 					        return;
 			        	} else {
 			        		JOptionPane.showMessageDialog(null, "未知错误，修改版块信息失败！");
-					        response.sendRedirect("../jsp/modifyforum.jsp?fid=" + forum.getId());
+					        response.sendRedirect("../jsp/manageforums.jsp");
 			        	}
 			        }
 			    }
