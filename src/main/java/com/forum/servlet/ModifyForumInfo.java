@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 
 import com.forum.dao.ForumDao;
 import com.forum.entity.Forum;
+import com.forum.entity.User;
 
 public class ModifyForumInfo extends HttpServlet {
 	
@@ -33,6 +34,14 @@ public class ModifyForumInfo extends HttpServlet {
 		if(str != "")
 			n = Integer.parseInt(str);
 		forum.setType(n > 0 ? true : false);
+		User usr = new User();
+		usr = (User) request.getSession().getAttribute("usr");
+		if(usr == null || !usr.getAdmin()) {
+			JOptionPane.showMessageDialog(null, "请先登录！");
+			request.getSession().setAttribute("usr", null);
+			response.sendRedirect("../jsp/login.jsp");
+			return;
+		}
 		if(forum.getTitle().equals("")) {
 			JOptionPane.showMessageDialog(null, "版块名称不能为空！");
 			response.sendRedirect("../jsp/modifyforum.jsp?");

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.swing.JOptionPane;
 
 import com.forum.dao.UserDao;
+import com.forum.entity.User;
 
 public class DeleteUser extends HttpServlet {
 	
@@ -24,6 +25,14 @@ public class DeleteUser extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         int id = Integer.parseInt(request.getParameter("uid"));
         UserDao dao = new UserDao();
+        User usr = new User();
+		usr = (User) request.getSession().getAttribute("usr");
+		if(usr == null || !usr.getAdmin()) {
+			JOptionPane.showMessageDialog(null, "请先登录！");
+			request.getSession().setAttribute("usr", null);
+			response.sendRedirect("../jsp/login.jsp");
+			return;
+		}
         try {
 			if(dao.delUser(id)) {
 				JOptionPane.showMessageDialog(null, "删除成功！");

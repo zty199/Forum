@@ -34,6 +34,20 @@ public class ModifyUserInfo extends HttpServlet {
 		user.setDate(date);
 		user.setPhone(request.getParameter("phone"));
 		user.setMail(request.getParameter("mail"));
+		User usr = new User();
+		usr = (User) request.getSession().getAttribute("usr");
+		if(usr == null) {
+			JOptionPane.showMessageDialog(null, "请先登录！");
+			request.getSession().setAttribute("usr", null);
+			response.sendRedirect("../jsp/login.jsp");
+			return;
+		}
+		if(usr.getUserid() != user.getUserid()) {
+			JOptionPane.showMessageDialog(null, "登录信息不符，请重新登录！");
+			request.getSession().setAttribute("usr", null);
+			response.sendRedirect("../jsp/login.jsp");
+			return;
+		}
 		if(user.getUsername().equals("")) {
 			JOptionPane.showMessageDialog(null, "用户名不能为空！");
 			response.sendRedirect("../jsp/personal.jsp");
@@ -42,6 +56,7 @@ public class ModifyUserInfo extends HttpServlet {
 			if(user.getUsername().equals("无名氏")) {
 				JOptionPane.showMessageDialog(null, "该用户名不可用！");
 			    response.sendRedirect("../jsp/personal.jsp");
+			    return;
 			} else {
 				UserDao dao = new UserDao();
 			    try {

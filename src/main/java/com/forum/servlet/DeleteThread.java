@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 
 import com.forum.dao.ReplyDao;
 import com.forum.dao.ThreadDao;
+import com.forum.entity.User;
 
 public class DeleteThread extends HttpServlet {
 	
@@ -26,6 +27,14 @@ public class DeleteThread extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("tid"));
         ThreadDao dao = new ThreadDao();
         ReplyDao dao1 = new ReplyDao();
+        User usr = new User();
+		usr = (User) request.getSession().getAttribute("usr");
+		if(usr == null || !usr.getAdmin()) {
+			JOptionPane.showMessageDialog(null, "请先登录！");
+			request.getSession().setAttribute("usr", null);
+			response.sendRedirect("../jsp/login.jsp");
+			return;
+		}
         try {
 			if(dao.delThread(id) && dao1.delAllReply(id)) {
 				JOptionPane.showMessageDialog(null, "删除成功！");
