@@ -77,6 +77,7 @@ public class ModifyUserInfo extends HttpServlet {
 				            } else {
 				            	if(dao.modifyUser(user, temp)) {
 				            		JOptionPane.showMessageDialog(null, "修改成功！");
+				            		user.setAdmin(usr.getAdmin());
 				            		request.getSession().setAttribute("usr", user);
 				            		response.sendRedirect("../jsp/personal.jsp");
 				            		return;

@@ -37,6 +37,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v9.0"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
-	<classpathentry exported="true" kind="lib" path="/home/zhangtianyi/eclipse-workspace/Forum/src/main/webapp/WEB-INF/lib/mysql-connector-java-8.0.17.jar"/>
+	<classpathentry kind="lib" path="/Users/zhangtianyi/eclipse-workspace/Forum/src/main/webapp/WEB-INF/lib/mysql-connector-java-8.0.17.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

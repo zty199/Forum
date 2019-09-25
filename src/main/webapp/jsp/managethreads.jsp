@@ -112,7 +112,7 @@ usr = (User) session.getAttribute("usr");
             <td><%=thread.getThread_writer()%></td>
             <td><%=thread.getThread_date()%></td>
             <td>
-              <button type="button" class="layui-btn layui-btn-lg" onclick="window.location.href='/Forum/servlet/DeleteThread?uid=<%=thread.getThread_id()%>';"><i class="layui-icon layui-icon-delete"></i>删除</button>
+              <button type="button" class="layui-btn layui-btn-lg" onclick="window.location.href='/Forum/servlet/DeleteThread?tid=<%=thread.getThread_id()%>';"><i class="layui-icon layui-icon-delete"></i>删除</button>
             </td>
           </tr>
         <%
